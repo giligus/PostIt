@@ -115,7 +115,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .fbtn:hover{border-color:var(--border2);background:var(--surface2);}
 .fbtn.active{background:var(--acc-s);border-color:var(--acc);color:var(--acc);}
 .pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:16px;}
-.pc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s,transform .2s;}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column;height:100%;}
 .pc:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
 .pc-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--border);}
 .picon{width:31px;height:31px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;}
@@ -127,7 +127,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .pc-gear{margin-left:auto;width:26px;height:26px;border-radius:7px;background:transparent;border:1px solid var(--border2);cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .pc-gear:hover{background:var(--acc-s);color:var(--acc);border-color:var(--acc);}
 .pc-gear svg{width:12px;height:12px;}
-.pc-feed{padding:10px 14px;min-height:120px;}
+.pc-feed{padding:10px 14px;min-height:120px;flex:1;}
 .pi{padding:8px 0;border-bottom:1px solid var(--border);}
 .pi:last-child{border-bottom:none;}
 .pi-txt{font-size:13px;line-height:1.5;color:var(--text2);margin-bottom:5px;}
@@ -229,7 +229,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .vbtn.active{background:var(--surface);color:var(--text);box-shadow:var(--sh);border:1px solid var(--border);}
 .vbtn svg{width:14px;height:14px;}
 .indicator-btn{position:relative;}
-.indicator-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh3);padding:14px;width:260px;z-index:100;display:none;}
+.indicator-dropdown{position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh3);padding:14px;width:min(260px,calc(100vw - 120px));z-index:100;display:none;}
 .indicator-dropdown.open{display:block;}
 .ind-item{display:flex;align-items:center;gap:9px;padding:6px 4px;cursor:pointer;border-radius:6px;transition:background .13s;}
 .ind-item:hover{background:var(--surface2);}
@@ -318,6 +318,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .sn-item.active{background:var(--acc-s);color:var(--acc);}
 .sn-item svg{width:14px;height:14px;flex-shrink:0;}
 .set-body{display:flex;flex-direction:column;gap:15px;}
+.lang-pref-card{padding:18px 20px;}
+.lang-pref-head{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.lang-pref-desc{font-size:13px;color:var(--muted);margin-bottom:14px;}
+.lang-pref-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.lang-pref-btn{min-width:120px;justify-content:center;}
 .psc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);}
 .psc-head{display:flex;align-items:center;gap:10px;padding:13px 17px;border-bottom:1px solid var(--border);background:var(--surface2);}
 .psc-title{font-size:14px;font-weight:700;}.psc-sub{font-size:11px;color:var(--muted);}
@@ -356,7 +361,28 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .team-tbl th{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;background:var(--surface2);}
 .team-tbl td{font-size:13px;border-top:1px solid var(--border);}
 .team-tbl input{width:100%;background:transparent;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--text);}
+.team-tbl .sel-input{width:100%;}
 .team-tbl input:focus{background:var(--surface2);border-radius:5px;padding-left:6px;}
+.team-tbl .tog.readonly{pointer-events:none;}
+
+html[dir="rtl"] body{text-align:right;}
+html[dir="rtl"] .sidebar{border-right:none;border-left:1px solid var(--border);}
+html[dir="rtl"] .notif-dot{right:auto;left:7px;}
+html[dir="rtl"] .login-field,
+html[dir="rtl"] .login-status,
+html[dir="rtl"] .tbl-head th,
+html[dir="rtl"] .team-tbl th,
+html[dir="rtl"] .team-tbl td{text-align:right;}
+html[dir="rtl"] .pc-gear,
+html[dir="rtl"] .live-badge,
+html[dir="rtl"] .conn-pill,
+html[dir="rtl"] .sp,
+html[dir="rtl"] .psel-ck,
+html[dir="rtl"] .ph-time,
+html[dir="rtl"] .wfa-time{margin-left:0;margin-right:auto;}
+html[dir="rtl"] .char-c{text-align:left;}
+html[dir="rtl"] .indicator-dropdown{left:auto;right:0;}
+html[dir="rtl"] .team-tbl input:focus{padding-left:0;padding-right:6px;}
 
 /* ═══ MODAL ════════════════════════════════════════════ */
 .modal-back{position:fixed;inset:0;background:rgba(15,23,42,.3);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;}
@@ -376,6 +402,38 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .ping-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .ping-body{padding:16px 20px;}
 .ping-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
+.detail-modal{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:640px;max-width:95vw;box-shadow:var(--sh3);animation:fadeUp .22s ease;overflow:hidden;}
+.detail-body{padding:18px 20px;display:flex;flex-direction:column;gap:16px;max-height:min(72vh,720px);overflow:auto;}
+.detail-summary{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 15px;}
+.detail-summary-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.detail-summary-time{margin-left:auto;font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;}
+.detail-summary-text{font-size:14px;line-height:1.6;color:var(--text2);}
+.detail-section{display:flex;flex-direction:column;gap:10px;}
+.detail-section-title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:.01em;}
+.detail-pipeline{display:flex;flex-direction:column;gap:10px;}
+.detail-step{display:flex;gap:12px;align-items:flex-start;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 13px;}
+.detail-step-marker{width:11px;height:11px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--border2);}
+.detail-step.done .detail-step-marker{background:var(--green);}
+.detail-step.current .detail-step-marker{background:var(--yellow);}
+.detail-step.upcoming .detail-step-marker{background:var(--muted2);}
+.detail-step-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.detail-step-name{font-size:13px;font-weight:700;color:var(--text);}
+.detail-step-status{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid transparent;}
+.detail-step.done .detail-step-status{background:rgba(16,185,129,.12);color:var(--green);border-color:rgba(16,185,129,.22);}
+.detail-step.current .detail-step-status{background:rgba(245,158,11,.12);color:var(--yellow);border-color:rgba(245,158,11,.2);}
+.detail-step.upcoming .detail-step-status{background:rgba(148,163,184,.12);color:var(--muted);border-color:rgba(148,163,184,.2);}
+.detail-step-note{font-size:12px;line-height:1.6;color:var(--text2);margin-top:5px;}
+.detail-approvers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.detail-note-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px;}
+.detail-note-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.detail-note-name{font-size:13px;font-weight:700;color:var(--text);}
+.detail-note-meta{font-size:11px;color:var(--muted);}
+.detail-note-status{margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;}
+.detail-note-status.ok{color:var(--green);}
+.detail-note-status.pending{color:var(--yellow);}
+.detail-note-text{font-size:12px;line-height:1.6;color:var(--text2);}
+html[dir="rtl"] .detail-summary-time,
+html[dir="rtl"] .detail-note-status{margin-left:0;margin-right:auto;}
 
 /* ═══ SCROLLBAR / TOAST ════════════════════════════════ */
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}
@@ -461,28 +519,49 @@ input.txt-input:focus{border-color:var(--acc);}
          GALLERY PAGE
     ════════════════════════════════════════ -->
     <div class="page active" id="page-gallery">
-      <!-- filters -->
-      <div class="gallery-filters">
-        <div class="filter-group" id="statusFilters">
-          <span style="font-size:12px;font-weight:700;color:var(--muted);align-self:center;margin-right:2px">Status:</span>
-          <button class="fbtn active" onclick="setGalleryFilter('status','all',this)">All</button>
-          <button class="fbtn" onclick="setGalleryFilter('status','published',this)">Published</button>
-          <button class="fbtn" onclick="setGalleryFilter('status','waiting',this)">Waiting Approval</button>
-          <button class="fbtn" onclick="setGalleryFilter('status','deleted',this)">Deleted</button>
-        </div>
-        <div class="filter-divider"></div>
-        <div class="filter-group" id="platformFilters">
-          <span style="font-size:12px;font-weight:700;color:var(--muted);align-self:center;margin-right:2px">Platform:</span>
-          <button class="fbtn active" onclick="setGalleryFilter('platform','all',this)">All</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','Twitter',this)" style="color:var(--tw)">Twitter</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','LinkedIn',this)" style="color:var(--li)">LinkedIn</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','Instagram',this)" style="color:var(--ig)">Instagram</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','Facebook',this)" style="color:var(--fb)">Facebook</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','YouTube',this)" style="color:var(--yt)">YouTube</button>
-          <button class="fbtn" onclick="setGalleryFilter('platform','TikTok',this)">TikTok</button>
-        </div>
+      <div class="sub-tabs" style="margin-bottom:20px">
+        <button class="sub-tab active" id="gtab-gallery" onclick="switchGalleryTab('gallery')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Posts Gallery
+        </button>
+        <button class="sub-tab" id="gtab-perf" onclick="switchGalleryTab('perf')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Post Performance
+        </button>
       </div>
-      <div class="pg-grid" id="galleryGrid"></div>
+      <div id="gpanel-gallery">
+        <div class="gallery-filters">
+          <div class="filter-group" id="statusFilters">
+            <span style="font-size:12px;font-weight:700;color:var(--muted);align-self:center;margin-right:2px">Status:</span>
+            <button class="fbtn active" onclick="setGalleryFilter('status','all',this)">All</button>
+            <button class="fbtn" onclick="setGalleryFilter('status','published',this)">Published</button>
+            <button class="fbtn" onclick="setGalleryFilter('status','waiting',this)">Waiting Approval</button>
+            <button class="fbtn" onclick="setGalleryFilter('status','deleted',this)">Deleted</button>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-group" id="platformFilters">
+            <span style="font-size:12px;font-weight:700;color:var(--muted);align-self:center;margin-right:2px">Platform:</span>
+            <button class="fbtn active" onclick="setGalleryFilter('platform','all',this)">All</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','Twitter',this)" style="color:var(--tw)">Twitter</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','LinkedIn',this)" style="color:var(--li)">LinkedIn</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','Instagram',this)" style="color:var(--ig)">Instagram</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','Facebook',this)" style="color:var(--fb)">Facebook</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','YouTube',this)" style="color:var(--yt)">YouTube</button>
+            <button class="fbtn" onclick="setGalleryFilter('platform','TikTok',this)">TikTok</button>
+          </div>
+        </div>
+        <div class="pg-grid" id="galleryGrid"></div>
+      </div>
+      <div id="gpanel-perf" style="display:none">
+        <div class="tbl-toolbar">
+          <div style="position:relative" class="indicator-btn">
+            <button class="btn btn-ghost btn-sm" onclick="togglePerfIndicators()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+              Indicators
+            </button>
+            <div class="indicator-dropdown" id="perfIndDropdown"></div>
+          </div>
+        </div>
+        <div id="perf-table-wrap"></div>
+      </div>
     </div>
 
     <!-- ══════════════════════════════════════
@@ -569,7 +648,6 @@ input.txt-input:focus{border-color:var(--acc);}
               <!-- filled by JS -->
             </div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="showPage('compose',document.getElementById('nav-compose'))">+ New Post</button>
         </div>
         <div id="pub-table-wrap"></div>
         <div id="pub-gallery-wrap" style="display:none"></div>
@@ -580,40 +658,14 @@ input.txt-input:focus{border-color:var(--acc);}
          MONITOR PAGE  (2 sub-tabs)
     ════════════════════════════════════════ -->
     <div class="page" id="page-monitor">
-      <div class="sub-tabs" style="margin-bottom:20px">
-        <button class="sub-tab active" id="mtab-gallery" onclick="switchMonTab('gallery')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Posts Gallery
-        </button>
-        <button class="sub-tab" id="mtab-perf" onclick="switchMonTab('perf')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Post Performance
-        </button>
+      <div class="kpi-grid">
+        <div class="kpi-card k1"><div class="kpi-lbl">Total Reach</div><div class="kpi-val">284K</div><div class="kpi-d">↑ 18.4% this week</div></div>
+        <div class="kpi-card k2"><div class="kpi-lbl">Avg Engagement</div><div class="kpi-val">7.6%</div><div class="kpi-d">↑ 2.1% this week</div></div>
+        <div class="kpi-card k3"><div class="kpi-lbl">Posts Published</div><div class="kpi-val">24</div><div class="kpi-d">↑ 4 this week</div></div>
+        <div class="kpi-card k4"><div class="kpi-lbl">Avg Impact</div><div class="kpi-val">72</div><div class="kpi-d dn">↓ 3pts this week</div></div>
       </div>
-
-      <!-- Gallery sub-tab -->
-      <div id="mpanel-gallery">
-        <div class="kpi-grid">
-          <div class="kpi-card k1"><div class="kpi-lbl">Total Reach</div><div class="kpi-val">284K</div><div class="kpi-d">↑ 18.4% this week</div></div>
-          <div class="kpi-card k2"><div class="kpi-lbl">Avg Engagement</div><div class="kpi-val">7.6%</div><div class="kpi-d">↑ 2.1% this week</div></div>
-          <div class="kpi-card k3"><div class="kpi-lbl">Posts Published</div><div class="kpi-val">24</div><div class="kpi-d">↑ 4 this week</div></div>
-          <div class="kpi-card k4"><div class="kpi-lbl">Avg Impact</div><div class="kpi-val">72</div><div class="kpi-d dn">↓ 3pts this week</div></div>
-        </div>
-        <div class="sec-title">Live Platforms</div>
-        <div class="pg-grid" id="monGallery"></div>
-      </div>
-
-      <!-- Performance sub-tab -->
-      <div id="mpanel-perf" style="display:none">
-        <div class="tbl-toolbar">
-          <div style="position:relative" class="indicator-btn">
-            <button class="btn btn-ghost btn-sm" onclick="togglePerfIndicators()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-              Indicators
-            </button>
-            <div class="indicator-dropdown" id="perfIndDropdown"></div>
-          </div>
-        </div>
-        <div id="perf-table-wrap"></div>
-      </div>
+      <div class="sec-title">Live Platforms</div>
+      <div class="pg-grid" id="monGallery"></div>
     </div>
 
     <!-- ══════════════════════════════════════
@@ -670,7 +722,7 @@ input.txt-input:focus{border-color:var(--acc);}
               </div>
               <div style="overflow-x:auto">
                 <table class="team-tbl" style="width:100%;border-collapse:collapse" id="teamTable">
-                  <thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Role</th><th>Can Approve</th><th></th></tr></thead>
+                  <thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Role</th><th>User Type</th><th>Can Approve</th><th></th></tr></thead>
                   <tbody id="teamBody"></tbody>
                 </table>
               </div>
@@ -731,6 +783,15 @@ input.txt-input:focus{border-color:var(--acc);}
   </div>
 </div>
 
+<!-- WAITING APPROVAL DETAILS MODAL -->
+<div class="modal-back" id="wfaDetailsModal">
+  <div class="detail-modal">
+    <div class="modal-head"><div class="modal-title" id="wfaDetailsTitle">Approval Details</div><button class="close-btn" onclick="closeWfaDetails()">✕</button></div>
+    <div class="detail-body" id="wfaDetailsBody"></div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeWfaDetails()" id="wfaDetailsCloseBtn">Close</button></div>
+  </div>
+</div>
+
 <script src="firebase-config.js"></script>
 <script src="app-config.js"></script>
 <script>
@@ -756,20 +817,21 @@ let published=[
 ];
 
 let waitingPosts=[
-  {id:101,txt:'Introducing our new AI-powered dashboard — 10x faster insights for enterprise teams.',platform:'LinkedIn',plColor:'var(--li)',time:'3h ago',reason:'Pending legal review of AI capability claims',approvers:[{name:'Mike K.',ini:'MK',dept:'Legal',color:'rgba(245,158,11,.15)',textColor:'var(--yellow)',ok:false},{name:'Sarah R.',ini:'SR',dept:'Brand',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:true}]},
-  {id:102,txt:'🔥 Flash sale — 30% off all plans this weekend only! #Sale #SaaS',platform:'Twitter',plColor:'var(--tw)',time:'1h ago',reason:'Budget approval needed from Finance',approvers:[{name:'Dan L.',ini:'DL',dept:'Finance',color:'rgba(239,68,68,.15)',textColor:'var(--red)',ok:false},{name:'Sarah R.',ini:'SR',dept:'Brand',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:false}]},
+  {id:101,txt:'Introducing our new AI-powered dashboard — 10x faster insights for enterprise teams.',platform:'LinkedIn',plColor:'var(--li)',time:'3h ago',reason:'Pending legal review of AI capability claims',pipeline:[{step:'draft',status:'done',note:'Draft prepared by the product marketing team.'},{step:'autoStyle',status:'done',note:'Auto-Style adapted the copy for LinkedIn enterprise tone.'},{step:'approval',status:'current',note:'Legal is reviewing the AI performance wording before publish.'},{step:'publish',status:'upcoming',note:'The post will be queued for the next available publish slot.'},{step:'monitor',status:'upcoming',note:'Performance tracking starts after the post goes live.'}],approvers:[{name:'Mike K.',ini:'MK',dept:'Legal',color:'rgba(245,158,11,.15)',textColor:'var(--yellow)',ok:false,note:'Please avoid absolute capability claims until legal signs off on the exact wording.'},{name:'Sarah R.',ini:'SR',dept:'Brand',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:true,note:'Brand review completed. Voice and positioning look on target.'}]},
+  {id:102,txt:'🔥 Flash sale — 30% off all plans this weekend only! #Sale #SaaS',platform:'Twitter',plColor:'var(--tw)',time:'1h ago',reason:'Budget approval needed from Finance',pipeline:[{step:'draft',status:'done',note:'Growth team created the launch copy and discount framing.'},{step:'autoStyle',status:'done',note:'Auto-Style shortened the message for Twitter/X character limits.'},{step:'approval',status:'current',note:'Finance and Brand still need to confirm pricing and campaign framing.'},{step:'publish',status:'upcoming',note:'Publishing will resume once all pending approvers confirm.'},{step:'monitor',status:'upcoming',note:'CTR and conversion tracking will appear after publish.'}],approvers:[{name:'Dan L.',ini:'DL',dept:'Finance',color:'rgba(239,68,68,.15)',textColor:'var(--red)',ok:false,note:'Need confirmation that the 30% discount aligns with the approved promo budget.'},{name:'Sarah R.',ini:'SR',dept:'Brand',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:false,note:'Please add the campaign disclaimer and confirm the final hashtag set.'}]},
 ];
 
 let teamMembers=[
-  {id:1,name:'Sarah R.',email:'sarah@mycompany.com',dept:'Brand',role:'Head of Brand',canApprove:true},
-  {id:2,name:'Mike K.',email:'mike@mycompany.com',dept:'Legal',role:'Legal Counsel',canApprove:true},
-  {id:3,name:'Dan L.',email:'dan@mycompany.com',dept:'Finance',role:'Finance Lead',canApprove:false},
+  {id:1,name:'Sarah R.',email:'sarah@mycompany.com',dept:'Brand',role:'Head of Brand',userType:'admin',canApprove:true},
+  {id:2,name:'Mike K.',email:'mike@mycompany.com',dept:'Legal',role:'Legal Counsel',userType:'approver',canApprove:true},
+  {id:3,name:'Dan L.',email:'dan@mycompany.com',dept:'Finance',role:'Finance Lead',userType:'creator',canApprove:false},
 ];
 
-let uploads=[], editId=null, delId=null, pingData=null;
+let uploads=[], editId=null, delId=null, pingData=null, wfaDetailsId=null;
 let currentUser=null, firebaseEnabled=false, demoModeEnabled=false, authClient=null, dbClient=null, authApi=null;
 let integrationProviders=[],pendingIntegrationNotice=null;
 const DEFAULT_COMPANY_NAME='My Company';
+const USER_TYPES=['admin','creator','approver','reader'];
 
 // Indicators config — which columns are ON
 const ALL_INDICATORS=[
@@ -790,6 +852,553 @@ let pubView='table'; // 'table' | 'gallery'
 let sortState={col:null,dir:'asc'};
 let perfSortState={col:null,dir:'asc'};
 let galleryStatusFilter='all', galleryPlatformFilter='all';
+const UI_LANG_STORAGE_KEY='postit_ui_lang';
+let currentUILang='en';
+try{
+  currentUILang=window.localStorage.getItem(UI_LANG_STORAGE_KEY)==='he'?'he':'en';
+}catch(error){
+  currentUILang='en';
+}
+const UI_TEXT={
+  en:{
+    'app.title':'Social Command Center',
+    'login.displayName':'Display Name (Optional)',
+    'login.email':'Email',
+    'login.password':'Password',
+    'login.displayNamePlaceholder':'Jane Doe',
+    'login.emailPlaceholder':'you@company.com',
+    'login.passwordPlaceholder':'••••••••',
+    'login.createAccount':'Create Account',
+    'login.demoSub':'Firebase is not configured yet, so this build stays in demo mode.',
+    'login.demoNote':'Create firebase-config.js with your Firebase web config to enable real accounts and the Firestore users collection.',
+    'login.demoAction':'Continue in Demo Mode',
+    'login.demoStatus':'Demo mode is active. Add your Firebase config when you are ready for real users.',
+    'login.firebaseSub':'Sign in with a real email/password account.',
+    'login.firebaseNote':'Accounts are created in Firebase Authentication and mirrored into Firestore under users/{uid}.',
+    'login.signIn':'Sign In →',
+    'login.connectedStatus':'Firebase connected. Sign in or create an account.',
+    'nav.gallery':'Gallery',
+    'nav.compose':'Compose',
+    'nav.monitor':'Monitor',
+    'nav.settings':'Settings',
+    'topbar.renameHint':'click to rename',
+    'topbar.newPost':'New Post',
+    'topbar.demoMode':'Demo mode',
+    'topbar.liveChip':count=>`${count} live`,
+    'topbar.signOut':'Sign out',
+    'gallery.postsTab':'Posts Gallery',
+    'gallery.performanceTab':'Post Performance',
+    'gallery.status':'Status:',
+    'gallery.platform':'Platform:',
+    'common.all':'All',
+    'common.published':'Published',
+    'common.waitingApproval':'Waiting Approval',
+    'common.deleted':'Deleted',
+    'common.indicators':'Indicators',
+    'common.cancel':'Cancel',
+    'common.close':'Close',
+    'common.delete':'Delete',
+    'common.remove':'Remove',
+    'common.saveChanges':'Save Changes',
+    'common.characters':'characters',
+    'compose.tabCompose':'Compose',
+    'compose.tabWaiting':'Waiting Approval',
+    'compose.tabPublished':'Published',
+    'compose.message':'Message',
+    'compose.media':'Media',
+    'compose.approval':'Approval',
+    'compose.publish':'Publish',
+    'compose.preview':'Preview',
+    'compose.pipeline':'Pipeline',
+    'compose.autoMode':'Auto-Style',
+    'compose.manualMode':'Manual',
+    'compose.masterMessage':'Master Message',
+    'compose.masterPlaceholder':'Write your core message. Auto-Style adapts it for each platform...',
+    'compose.manualPlaceholder':'Write for this platform...',
+    'compose.autoStyleActive':'Auto-Style Active',
+    'compose.autoStyleBody':'Platform prompts adapt this message automatically. Configure in Settings → Platform Styles.',
+    'compose.mediaUpload':'Click or drag & drop images',
+    'compose.mediaHint':'PNG, JPG, GIF · max 10MB each',
+    'compose.addReviewer':'+ Add Reviewer',
+    'compose.selectPlatforms':'Select Platforms',
+    'compose.schedule':'Schedule',
+    'compose.scheduleLater':'Schedule for later',
+    'compose.saveDraft':'Save Draft',
+    'compose.publishNow':'Confirm',
+    'compose.previewPlaceholder':'Your message appears here...',
+    'monitor.totalReach':'Total Reach',
+    'monitor.avgEngagement':'Avg Engagement',
+    'monitor.postsPublished':'Posts Published',
+    'monitor.avgImpact':'Avg Impact',
+    'monitor.deltaReach':'↑ 18.4% this week',
+    'monitor.deltaEngagement':'↑ 2.1% this week',
+    'monitor.deltaPosts':'↑ 4 this week',
+    'monitor.deltaImpact':'↓ 3pts this week',
+    'monitor.livePlatforms':'Live Platforms',
+    'settings.label':'Settings',
+    'settings.uiLanguage':'UI Language',
+    'settings.uiLanguageDesc':'Choose the interface language for the dashboard.',
+    'settings.english':'English',
+    'settings.hebrew':'Hebrew',
+    'settings.platformStyles':'Platform Styles',
+    'settings.colorSchema':'Color Schema',
+    'settings.integrations':'Integrations',
+    'settings.realIntegrations':'Real Integrations',
+    'settings.team':'Team',
+    'settings.teamApprovals':'Team & Approvals',
+    'settings.manageApprovals':'Manage who can review and approve posts',
+    'settings.addMember':'+ Add Member',
+    'settings.scoring':'Scoring',
+    'settings.scoringCriteria':'Scoring Criteria',
+    'settings.scoringDesc':'Define how Impact Score is calculated.',
+    'settings.engagementRate':'Engagement Rate',
+    'settings.reach':'Reach',
+    'settings.shares':'Shares',
+    'settings.comments':'Comments',
+    'settings.saveCriteria':'Save Criteria',
+    'settings.name':'Name',
+    'settings.department':'Department',
+    'settings.role':'Role',
+    'settings.userType':'User Type',
+    'settings.canApprove':'Can Approve',
+    'userType.admin':'Admin',
+    'userType.creator':'Creator',
+    'userType.approver':'Approver',
+    'userType.reader':'Reader',
+    'team.newMember':'New Member',
+    'indicator.chooseColumns':'Choose Columns',
+    'indicator.reach':'Reach',
+    'indicator.likes':'Likes',
+    'indicator.shares':'Shares',
+    'indicator.comments':'Comments',
+    'indicator.daysInAir':'Days in Air',
+    'indicator.traffic':'Traffic to Site',
+    'indicator.conversions':'Conversions',
+    'indicator.audienceGrowth':'Audience Growth',
+    'indicator.roi':'Social ROI',
+    'indicator.score':'Impact Score',
+    'table.post':'Post',
+    'table.platform':'Platform',
+    'table.approvers':'Approvers',
+    'table.actions':'Actions',
+    'status.live':'LIVE',
+    'status.waiting':'WAITING',
+    'status.deleted':'DELETED',
+    'status.approved':'Approved',
+    'status.pending':'Pending',
+    'metric.followers':'followers',
+    'metric.eng':'eng',
+    'wfa.waitingReason':'Waiting reason:',
+    'wfa.ping':'Ping',
+    'wfa.edit':'Edit',
+    'wfa.remove':'Remove',
+    'wfa.moreDetails':'More Details',
+    'wfa.empty':'No posts waiting for approval',
+    'modal.editTitle':'Edit Post',
+    'modal.message':'Message',
+    'modal.platform':'Platform',
+    'modal.replaceImage':'Replace Image (optional)',
+    'modal.uploadImage':'Upload Image',
+    'modal.deleteTitle':'Delete Post?',
+    'modal.deleteBody':'This will permanently remove the post.',
+    'modal.pingTitle':'Ping Approver',
+    'modal.to':'To',
+    'modal.sendPing':'Send Ping',
+    'modal.pingPlaceholder':'Write a short note to this approver...',
+    'modal.detailsTitle':'Approval Details',
+    'modal.postSummary':'Post Summary',
+    'modal.reason':'Waiting reason:',
+    'modal.pipeline':'Pipeline',
+    'modal.approverNotes':'Approver Notes',
+    'modal.noNote':'No note added yet.',
+    'pipeline.draft':'Draft',
+    'pipeline.autoStyle':'Auto-Style',
+    'pipeline.approval':'Approval',
+    'pipeline.publish':'Publish',
+    'pipeline.monitor':'Monitor',
+    'pipeline.status.done':'Done',
+    'pipeline.status.current':'In Review',
+    'pipeline.status.upcoming':'Next',
+    'toast.postUpdated':'Post updated ✓',
+    'toast.postDeleted':'Post deleted',
+    'toast.memberAdded':'Team member added',
+    'toast.theme':name=>`Theme: ${name}`,
+    'toast.pingSent':name=>`Ping sent to ${name}`,
+    'ping.defaultMessage':(name,post)=>`Hi ${name}, just a gentle reminder to review: "${post}"`,
+    'integrations.empty':'No integration data loaded yet.',
+    'integrations.setupNeeded':'Setup needed',
+    'integrations.connected':'Connected',
+    'integrations.notConnected':'Not connected',
+    'integrations.defaultNote':'Configure the backend credentials and connect this provider.',
+    'integrations.missingEnv':list=>`Missing env: ${list}`,
+    'integrations.accountConnected':'Account connected',
+    'integrations.ready':'Ready to connect from this workspace',
+    'integrations.connect':'Connect',
+    'integrations.reconnect':'Reconnect',
+    'integrations.disconnect':'Disconnect'
+  },
+  he:{
+    'app.title':'מרכז הפיקוד החברתי',
+    'login.displayName':'שם תצוגה (אופציונלי)',
+    'login.email':'אימייל',
+    'login.password':'סיסמה',
+    'login.displayNamePlaceholder':'יעל כהן',
+    'login.emailPlaceholder':'you@company.com',
+    'login.passwordPlaceholder':'••••••••',
+    'login.createAccount':'יצירת חשבון',
+    'login.demoSub':'פיירבייס עדיין לא הוגדר, לכן המערכת פועלת במצב הדגמה.',
+    'login.demoNote':'צרו קובץ firebase-config.js עם הגדרות Firebase כדי לאפשר חשבונות אמיתיים ואוסף users ב-Firestore.',
+    'login.demoAction':'המשך במצב הדגמה',
+    'login.demoStatus':'מצב הדגמה פעיל. הוסיפו את הגדרות Firebase כשתהיו מוכנים למשתמשים אמיתיים.',
+    'login.firebaseSub':'התחברו עם חשבון אימייל/סיסמה אמיתי.',
+    'login.firebaseNote':'החשבונות נוצרים ב-Firebase Authentication ומסונכרנים ל-Firestore תחת users/{uid}.',
+    'login.signIn':'התחברות ←',
+    'login.connectedStatus':'Firebase מחובר. התחברו או צרו חשבון כדי להמשיך.',
+    'nav.gallery':'גלריה',
+    'nav.compose':'כתיבה',
+    'nav.monitor':'ניטור',
+    'nav.settings':'הגדרות',
+    'topbar.renameHint':'לחצו כדי לשנות שם',
+    'topbar.newPost':'פוסט חדש',
+    'topbar.demoMode':'מצב הדגמה',
+    'topbar.liveChip':count=>`${count} באוויר`,
+    'topbar.signOut':'התנתקות',
+    'gallery.postsTab':'גלריית פוסטים',
+    'gallery.performanceTab':'ביצועי פוסטים',
+    'gallery.status':'סטטוס:',
+    'gallery.platform':'פלטפורמה:',
+    'common.all':'הכול',
+    'common.published':'פורסם',
+    'common.waitingApproval':'ממתין לאישור',
+    'common.deleted':'נמחק',
+    'common.indicators':'מדדים',
+    'common.cancel':'ביטול',
+    'common.close':'סגירה',
+    'common.delete':'מחיקה',
+    'common.remove':'הסרה',
+    'common.saveChanges':'שמירת שינויים',
+    'common.characters':'תווים',
+    'compose.tabCompose':'כתיבה',
+    'compose.tabWaiting':'ממתין לאישור',
+    'compose.tabPublished':'פורסם',
+    'compose.message':'הודעה',
+    'compose.media':'מדיה',
+    'compose.approval':'אישור',
+    'compose.publish':'פרסום',
+    'compose.preview':'תצוגה מקדימה',
+    'compose.pipeline':'צינור עבודה',
+    'compose.autoMode':'סגנון אוטומטי',
+    'compose.manualMode':'ידני',
+    'compose.masterMessage':'הודעה ראשית',
+    'compose.masterPlaceholder':'כתבו את המסר המרכזי שלכם. הסגנון האוטומטי יתאים אותו לכל פלטפורמה...',
+    'compose.manualPlaceholder':'כתבו עבור הפלטפורמה הזו...',
+    'compose.autoStyleActive':'סגנון אוטומטי פעיל',
+    'compose.autoStyleBody':'הנחיות הפלטפורמה מתאימות את ההודעה אוטומטית. ניתן להגדיר זאת תחת הגדרות → סגנונות פלטפורמה.',
+    'compose.mediaUpload':'לחצו או גררו תמונות לכאן',
+    'compose.mediaHint':'PNG, JPG, GIF · עד 10MB לכל קובץ',
+    'compose.addReviewer':'+ הוספת מאשר',
+    'compose.selectPlatforms':'בחירת פלטפורמות',
+    'compose.schedule':'תזמון',
+    'compose.scheduleLater':'לתזמן לפרסום מאוחר יותר',
+    'compose.saveDraft':'שמירת טיוטה',
+    'compose.publishNow':'אישור',
+    'compose.previewPlaceholder':'הפוסט שלכם יופיע כאן...',
+    'monitor.totalReach':'חשיפה כוללת',
+    'monitor.avgEngagement':'מעורבות ממוצעת',
+    'monitor.postsPublished':'פוסטים שפורסמו',
+    'monitor.avgImpact':'אימפקט ממוצע',
+    'monitor.deltaReach':'↑ 18.4% השבוע',
+    'monitor.deltaEngagement':'↑ 2.1% השבוע',
+    'monitor.deltaPosts':'↑ 4 השבוע',
+    'monitor.deltaImpact':'↓ 3 נק׳ השבוע',
+    'monitor.livePlatforms':'פלטפורמות פעילות',
+    'settings.label':'הגדרות',
+    'settings.uiLanguage':'שפת ממשק',
+    'settings.uiLanguageDesc':'בחרו את שפת הממשק של הדשבורד.',
+    'settings.english':'English',
+    'settings.hebrew':'עברית',
+    'settings.platformStyles':'סגנונות פלטפורמה',
+    'settings.colorSchema':'ערכת צבעים',
+    'settings.integrations':'אינטגרציות',
+    'settings.realIntegrations':'אינטגרציות אמיתיות',
+    'settings.team':'צוות',
+    'settings.teamApprovals':'צוות ואישורים',
+    'settings.manageApprovals':'ניהול הגורמים שיכולים לבדוק ולאשר פוסטים',
+    'settings.addMember':'+ הוספת חבר צוות',
+    'settings.scoring':'ניקוד',
+    'settings.scoringCriteria':'קריטריוני ניקוד',
+    'settings.scoringDesc':'הגדירו כיצד מחושב ציון האימפקט.',
+    'settings.engagementRate':'שיעור מעורבות',
+    'settings.reach':'חשיפה',
+    'settings.shares':'שיתופים',
+    'settings.comments':'תגובות',
+    'settings.saveCriteria':'שמירת קריטריונים',
+    'settings.name':'שם',
+    'settings.department':'מחלקה',
+    'settings.role':'תפקיד',
+    'settings.userType':'סוג משתמש',
+    'settings.canApprove':'יכול לאשר',
+    'userType.admin':'מנהל',
+    'userType.creator':'יוצר',
+    'userType.approver':'מאשר',
+    'userType.reader':'צופה',
+    'team.newMember':'חבר צוות חדש',
+    'indicator.chooseColumns':'בחירת עמודות',
+    'indicator.reach':'חשיפה',
+    'indicator.likes':'לייקים',
+    'indicator.shares':'שיתופים',
+    'indicator.comments':'תגובות',
+    'indicator.daysInAir':'ימים באוויר',
+    'indicator.traffic':'תנועה לאתר',
+    'indicator.conversions':'המרות',
+    'indicator.audienceGrowth':'צמיחת קהל',
+    'indicator.roi':'ROI חברתי',
+    'indicator.score':'ציון אימפקט',
+    'table.post':'פוסט',
+    'table.platform':'פלטפורמה',
+    'table.approvers':'מאשרים',
+    'table.actions':'פעולות',
+    'status.live':'באוויר',
+    'status.waiting':'ממתין',
+    'status.deleted':'נמחק',
+    'status.approved':'אושר',
+    'status.pending':'ממתין',
+    'metric.followers':'עוקבים',
+    'metric.eng':'מעורבות',
+    'wfa.waitingReason':'סיבת ההמתנה:',
+    'wfa.ping':'תזכורת',
+    'wfa.edit':'עריכה',
+    'wfa.remove':'הסרה',
+    'wfa.moreDetails':'פרטים נוספים',
+    'wfa.empty':'אין פוסטים שממתינים לאישור',
+    'modal.editTitle':'עריכת פוסט',
+    'modal.message':'הודעה',
+    'modal.platform':'פלטפורמה',
+    'modal.replaceImage':'החלפת תמונה (אופציונלי)',
+    'modal.uploadImage':'העלאת תמונה',
+    'modal.deleteTitle':'למחוק את הפוסט?',
+    'modal.deleteBody':'הפעולה תמחק את הפוסט לצמיתות.',
+    'modal.pingTitle':'שליחת תזכורת למאשר',
+    'modal.to':'אל',
+    'modal.sendPing':'שליחת תזכורת',
+    'modal.pingPlaceholder':'כתבו הודעה קצרה למאשר הזה...',
+    'modal.detailsTitle':'פרטי אישור',
+    'modal.postSummary':'סיכום הפוסט',
+    'modal.reason':'סיבת ההמתנה:',
+    'modal.pipeline':'צינור עבודה',
+    'modal.approverNotes':'הערות מאשרים',
+    'modal.noNote':'עדיין לא נוספה הערה.',
+    'pipeline.draft':'טיוטה',
+    'pipeline.autoStyle':'סגנון אוטומטי',
+    'pipeline.approval':'אישור',
+    'pipeline.publish':'פרסום',
+    'pipeline.monitor':'ניטור',
+    'pipeline.status.done':'הושלם',
+    'pipeline.status.current':'בבדיקה',
+    'pipeline.status.upcoming':'השלב הבא',
+    'toast.postUpdated':'הפוסט עודכן ✓',
+    'toast.postDeleted':'הפוסט נמחק',
+    'toast.memberAdded':'חבר צוות נוסף',
+    'toast.theme':name=>`ערכת נושא: ${name}`,
+    'toast.pingSent':name=>`נשלחה תזכורת אל ${name}`,
+    'ping.defaultMessage':(name,post)=>`היי ${name}, רק תזכורת עדינה לבדוק את: "${post}"`,
+    'integrations.empty':'עדיין לא נטענו נתוני אינטגרציות.',
+    'integrations.setupNeeded':'נדרשת הגדרה',
+    'integrations.connected':'מחובר',
+    'integrations.notConnected':'לא מחובר',
+    'integrations.defaultNote':'הגדירו את פרטי הגישה ב-backend וחברו את הספק הזה.',
+    'integrations.missingEnv':list=>`משתני סביבה חסרים: ${list}`,
+    'integrations.accountConnected':'החשבון מחובר',
+    'integrations.ready':'מוכן לחיבור מהסביבה הנוכחית',
+    'integrations.connect':'חיבור',
+    'integrations.reconnect':'חיבור מחדש',
+    'integrations.disconnect':'ניתוק'
+  }
+};
+
+function t(key,...args){
+  const val=(UI_TEXT[currentUILang] && UI_TEXT[currentUILang][key]!==undefined ? UI_TEXT[currentUILang][key] : UI_TEXT.en[key]);
+  return typeof val==='function'?val(...args):(val!==undefined?val:key);
+}
+
+function setTextContent(target,text){
+  const el=typeof target==='string'?document.querySelector(target):target;
+  if(el)el.textContent=text;
+}
+
+function setPlaceholder(target,text){
+  const el=typeof target==='string'?document.querySelector(target):target;
+  if(el)el.placeholder=text;
+}
+
+function setTitleAttr(target,text){
+  const el=typeof target==='string'?document.querySelector(target):target;
+  if(el)el.title=text;
+}
+
+function setInlineLabel(target,text){
+  const el=typeof target==='string'?document.querySelector(target):target;
+  if(!el)return;
+  const node=[...el.childNodes].find(n=>n.nodeType===Node.TEXT_NODE && n.textContent.trim());
+  if(node)node.textContent=' '+text;
+  else el.append(document.createTextNode(' '+text));
+}
+
+function renderTodayDate(){
+  const today=document.getElementById('todayDate');
+  if(!today)return;
+  today.textContent=new Date().toLocaleDateString(currentUILang==='he'?'he-IL':'en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function updateCounterLabel(id,max=null){
+  const el=document.getElementById(id);
+  const input=id==='mcc'?document.getElementById('master-msg'):document.querySelector('#manual-mode textarea');
+  if(!el || !input)return;
+  el.textContent=max===null?`${input.value.length} ${t('common.characters')}`:`${input.value.length} / ${max}`;
+}
+
+function renderLanguagePreferenceCard(){
+  const setBody=document.querySelector('#page-settings .set-body');
+  if(!setBody)return;
+  let card=document.getElementById('uiLanguageCard');
+  if(!card){
+    card=document.createElement('div');
+    card.id='uiLanguageCard';
+    card.className='card lang-pref-card';
+    setBody.prepend(card);
+  }
+  card.innerHTML=`
+    <div class="lang-pref-head">${t('settings.uiLanguage')}</div>
+    <div class="lang-pref-desc">${t('settings.uiLanguageDesc')}</div>
+    <div class="lang-pref-actions">
+      <button class="btn ${currentUILang==='en'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setUILanguage('en')">${t('settings.english')}</button>
+      <button class="btn ${currentUILang==='he'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setUILanguage('he')">${t('settings.hebrew')}</button>
+    </div>`;
+}
+
+function applyStaticTranslations(){
+  document.documentElement.lang=currentUILang;
+  document.documentElement.dir=currentUILang==='he'?'rtl':'ltr';
+  document.title=t('app.title');
+  setTextContent('.login-title',t('app.title'));
+  setTextContent('#nameField .login-label',t('login.displayName'));
+  const emailLabel=document.querySelector('#authEmail')?.previousElementSibling;
+  const passwordLabel=document.querySelector('#authPassword')?.previousElementSibling;
+  if(emailLabel)emailLabel.textContent=t('login.email');
+  if(passwordLabel)passwordLabel.textContent=t('login.password');
+  setPlaceholder('#authName',t('login.displayNamePlaceholder'));
+  setPlaceholder('#authEmail',t('login.emailPlaceholder'));
+  setPlaceholder('#authPassword',t('login.passwordPlaceholder'));
+  setTextContent('#createBtn',t('login.createAccount'));
+  setTitleAttr('#nav-gallery',t('nav.gallery'));
+  setTitleAttr('#nav-compose',t('nav.compose'));
+  setTitleAttr('#nav-monitor',t('nav.monitor'));
+  setTitleAttr('#nav-settings',t('nav.settings'));
+  setTitleAttr('#logoutBtn',t('topbar.signOut'));
+  setInlineLabel(document.querySelector('.edit-hint'),t('topbar.renameHint'));
+  setInlineLabel(document.querySelector('.tb-right > .btn-primary'),t('topbar.newPost'));
+  setInlineLabel('#gtab-gallery',t('gallery.postsTab'));
+  setInlineLabel('#gtab-perf',t('gallery.performanceTab'));
+  setTextContent('#statusFilters span',t('gallery.status'));
+  setTextContent('#platformFilters span',t('gallery.platform'));
+  const statusBtns=document.querySelectorAll('#statusFilters .fbtn');
+  [t('common.all'),t('common.published'),t('common.waitingApproval'),t('common.deleted')].forEach((label,index)=>setTextContent(statusBtns[index],label));
+  const platformBtns=document.querySelectorAll('#platformFilters .fbtn');
+  if(platformBtns[0])setTextContent(platformBtns[0],t('common.all'));
+  setInlineLabel('#stab-c',t('compose.tabCompose'));
+  setInlineLabel('#stab-w',t('compose.tabWaiting'));
+  setInlineLabel('#stab-p',t('compose.tabPublished'));
+  const composeHeadings=document.querySelectorAll('#page-compose .card-head span');
+  [t('compose.message'),t('compose.media'),t('compose.approval'),t('compose.publish'),t('compose.preview'),t('compose.pipeline')].forEach((label,index)=>setTextContent(composeHeadings[index],label));
+  const modeBtns=document.querySelectorAll('#page-compose .mode-btn');
+  setInlineLabel(modeBtns[0],t('compose.autoMode'));
+  setInlineLabel(modeBtns[1],t('compose.manualMode'));
+  setTextContent('#auto-mode .fl',t('compose.masterMessage'));
+  setPlaceholder('#master-msg',t('compose.masterPlaceholder'));
+  setPlaceholder('#manual-mode textarea',t('compose.manualPlaceholder'));
+  updateCounterLabel('mcc');
+  updateCounterLabel('mcc2',280);
+  const infoBox=document.querySelector('#auto-mode .info-box');
+  if(infoBox)infoBox.innerHTML=`<b>${t('compose.autoStyleActive')}</b>${t('compose.autoStyleBody')}`;
+  setTextContent('.uz-lbl',t('compose.mediaUpload'));
+  setTextContent('.uz-hint',t('compose.mediaHint'));
+  setTextContent('.approval-add-btn',t('compose.addReviewer'));
+  const publishLabels=document.querySelectorAll('#panel-c .compose-main-col > .card:nth-of-type(4) .fl');
+  setTextContent(publishLabels[0],t('compose.selectPlatforms'));
+  setTextContent(publishLabels[1],t('compose.schedule'));
+  const scheduleText=document.querySelector('#schedTog + span');
+  if(scheduleText)setTextContent(scheduleText,t('compose.scheduleLater'));
+  const publishBtns=document.querySelectorAll('#panel-c .compose-main-col > .card:nth-of-type(4) .btn');
+  setTextContent(publishBtns[0],t('compose.saveDraft'));
+  setInlineLabel(publishBtns[1],t('compose.publishNow'));
+  if(!document.getElementById('master-msg').value.trim()){
+    document.getElementById('preview-txt').textContent=t('compose.previewPlaceholder');
+  }
+  const indicatorBtn=document.querySelector('#panel-p .indicator-btn .btn');
+  setInlineLabel(indicatorBtn,t('common.indicators'));
+  setTitleAttr('#vbtn-tbl',t('gallery.postsTab'));
+  setTitleAttr('#vbtn-gal',t('gallery.performanceTab'));
+  const kpiLabels=document.querySelectorAll('#page-monitor .kpi-lbl');
+  [t('monitor.totalReach'),t('monitor.avgEngagement'),t('monitor.postsPublished'),t('monitor.avgImpact')].forEach((label,index)=>setTextContent(kpiLabels[index],label));
+  const kpiDeltas=document.querySelectorAll('#page-monitor .kpi-d');
+  [t('monitor.deltaReach'),t('monitor.deltaEngagement'),t('monitor.deltaPosts'),t('monitor.deltaImpact')].forEach((label,index)=>setTextContent(kpiDeltas[index],label));
+  setTextContent('#page-monitor .sec-title',t('monitor.livePlatforms'));
+  setTextContent('.sn-lbl',t('settings.label'));
+  const settingsNav=document.querySelectorAll('.sn-item');
+  [t('settings.platformStyles'),t('settings.colorSchema'),t('settings.integrations'),t('settings.team'),t('settings.scoring')].forEach((label,index)=>setInlineLabel(settingsNav[index],label));
+  setTextContent('#sn-styles .sec-title',t('settings.platformStyles'));
+  setTextContent('#sn-schema .sec-title',t('settings.colorSchema'));
+  setTextContent('#sn-integrations .sec-title',t('settings.realIntegrations'));
+  setTextContent('#sn-team .sec-title',t('settings.teamApprovals'));
+  setTextContent('#sn-team .card > div:first-child > div:first-child',t('settings.manageApprovals'));
+  setTextContent('#sn-team .card > div:first-child .btn',t('settings.addMember'));
+  const teamHeaders=document.querySelectorAll('#teamTable thead th');
+  [t('settings.name'),t('login.email'),t('settings.department'),t('settings.role'),t('settings.canApprove'),''].forEach((label,index)=>setTextContent(teamHeaders[index],label));
+  setTextContent('#sn-score .sec-title',t('settings.scoringCriteria'));
+  setTextContent('#sn-score .card > div:first-child',t('settings.scoringDesc'));
+  const scoreLabels=document.querySelectorAll('#sn-score span[style*="min-width:140px"]');
+  [t('settings.engagementRate'),t('settings.reach'),t('settings.shares'),t('settings.comments')].forEach((label,index)=>setTextContent(scoreLabels[index],label));
+  setTextContent('#sn-score .btn',t('settings.saveCriteria'));
+  setTextContent('#editModal .modal-title',t('modal.editTitle'));
+  const editLabels=document.querySelectorAll('#editModal .modal-body .fl');
+  [t('modal.message'),t('modal.platform'),t('modal.replaceImage')].forEach((label,index)=>setTextContent(editLabels[index],label));
+  setInlineLabel('#editModal .modal-body .btn',t('modal.uploadImage'));
+  const editFootBtns=document.querySelectorAll('#editModal .modal-foot .btn');
+  setTextContent(editFootBtns[0],t('common.cancel'));
+  setTextContent(editFootBtns[1],t('common.saveChanges'));
+  setTextContent('#delModal [style*="font-size:15px"]',t('modal.deleteTitle'));
+  setTextContent('#delModal [style*="margin-bottom:17px"]',t('modal.deleteBody'));
+  const delBtns=document.querySelectorAll('#delModal .btn');
+  setTextContent(delBtns[0],t('common.cancel'));
+  setTextContent(delBtns[1],t('common.delete'));
+  setTextContent('#pingModal .ping-head > div:first-child',t('modal.pingTitle'));
+  const pingLabels=document.querySelectorAll('#pingModal .ping-body .fl');
+  [t('modal.to'),t('modal.message')].forEach((label,index)=>setTextContent(pingLabels[index],label));
+  setPlaceholder('#pingMsg',t('modal.pingPlaceholder'));
+  const pingBtns=document.querySelectorAll('#pingModal .btn');
+  setTextContent(pingBtns[0],t('common.cancel'));
+  setInlineLabel(pingBtns[1],t('modal.sendPing'));
+  renderTodayDate();
+  renderLanguagePreferenceCard();
+}
+
+function setUILanguage(lang,persist=true){
+  currentUILang=lang==='he'?'he':'en';
+  if(persist){
+    try{window.localStorage.setItem(UI_LANG_STORAGE_KEY,currentUILang);}catch(error){}
+  }
+  applyStaticTranslations();
+  buildGallery();
+  buildMonGallery();
+  buildTeamTable();
+  renderWFA();
+  renderPublished();
+  renderPerfTable();
+  renderIndicatorDropdown();
+  renderPerfIndicatorDropdown();
+  renderIntegrations();
+  setAuthChrome(currentUser,null);
+}
 
 /* ═══ LOGIN ══════════════════════════════════ */
 function isFirebaseConfigReady(config){
@@ -1346,10 +1955,10 @@ function setGalleryFilter(type,val,btn){
 }
 
 /* ═══ MONITOR TABS ═══════════════════════════ */
-function switchMonTab(t){
+function switchGalleryTab(t){
   ['gallery','perf'].forEach(x=>{
-    document.getElementById('mtab-'+x).classList.toggle('active',x===t);
-    document.getElementById('mpanel-'+x).style.display=x===t?'':'none';
+    document.getElementById('gtab-'+x).classList.toggle('active',x===t);
+    document.getElementById('gpanel-'+x).style.display=x===t?'':'none';
   });
   if(t==='perf')renderPerfTable();
 }
