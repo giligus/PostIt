@@ -483,9 +483,6 @@ input.txt-input:focus{border-color:var(--acc);}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
     <span class="notif-dot" id="wfaDot"></span>
   </button>
-  <button class="nav-btn" id="nav-monitor" onclick="showPage('monitor',this)" title="Monitor">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-  </button>
   <div class="nav-spacer"></div>
   <button class="nav-btn" id="nav-settings" onclick="showPage('settings',this)" title="Settings">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -533,7 +530,7 @@ input.txt-input:focus{border-color:var(--acc);}
             <span style="font-size:12px;font-weight:700;color:var(--muted);align-self:center;margin-right:2px">Status:</span>
             <button class="fbtn active" onclick="setGalleryFilter('status','all',this)">All</button>
             <button class="fbtn" onclick="setGalleryFilter('status','published',this)">Published</button>
-            <button class="fbtn" onclick="setGalleryFilter('status','waiting',this)">Waiting Approval</button>
+          <button class="fbtn" onclick="setGalleryFilter('status','waiting',this)">Pending Approval</button>
             <button class="fbtn" onclick="setGalleryFilter('status','deleted',this)">Deleted</button>
           </div>
           <div class="filter-divider"></div>
@@ -551,6 +548,12 @@ input.txt-input:focus{border-color:var(--acc);}
         <div class="pg-grid" id="galleryGrid"></div>
       </div>
       <div id="gpanel-perf" style="display:none">
+        <div class="kpi-grid">
+          <div class="kpi-card k1"><div class="kpi-lbl">Total Reach</div><div class="kpi-val">284K</div><div class="kpi-d">↑ 18.4% this week</div></div>
+          <div class="kpi-card k2"><div class="kpi-lbl">Avg Engagement</div><div class="kpi-val">7.6%</div><div class="kpi-d">↑ 2.1% this week</div></div>
+          <div class="kpi-card k3"><div class="kpi-lbl">Posts Published</div><div class="kpi-val">24</div><div class="kpi-d">↑ 4 this week</div></div>
+          <div class="kpi-card k4"><div class="kpi-lbl">Avg Impact</div><div class="kpi-val">72</div><div class="kpi-d dn">↓ 3pts this week</div></div>
+        </div>
         <div class="tbl-toolbar">
           <div style="position:relative" class="indicator-btn">
             <button class="btn btn-ghost btn-sm" onclick="togglePerfIndicators()">
@@ -573,7 +576,7 @@ input.txt-input:focus{border-color:var(--acc);}
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Compose
         </button>
         <button class="sub-tab" id="stab-w" onclick="switchSub('w')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Waiting Approval<span class="cnt-badge orange" id="wfaCount">2</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Pending Approval<span class="cnt-badge orange" id="wfaCount">2</span>
         </button>
         <button class="sub-tab" id="stab-p" onclick="switchSub('p')">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Published<span class="cnt-badge" id="pubCount">6</span>
@@ -652,20 +655,6 @@ input.txt-input:focus{border-color:var(--acc);}
         <div id="pub-table-wrap"></div>
         <div id="pub-gallery-wrap" style="display:none"></div>
       </div>
-    </div>
-
-    <!-- ══════════════════════════════════════
-         MONITOR PAGE  (2 sub-tabs)
-    ════════════════════════════════════════ -->
-    <div class="page" id="page-monitor">
-      <div class="kpi-grid">
-        <div class="kpi-card k1"><div class="kpi-lbl">Total Reach</div><div class="kpi-val">284K</div><div class="kpi-d">↑ 18.4% this week</div></div>
-        <div class="kpi-card k2"><div class="kpi-lbl">Avg Engagement</div><div class="kpi-val">7.6%</div><div class="kpi-d">↑ 2.1% this week</div></div>
-        <div class="kpi-card k3"><div class="kpi-lbl">Posts Published</div><div class="kpi-val">24</div><div class="kpi-d">↑ 4 this week</div></div>
-        <div class="kpi-card k4"><div class="kpi-lbl">Avg Impact</div><div class="kpi-val">72</div><div class="kpi-d dn">↓ 3pts this week</div></div>
-      </div>
-      <div class="sec-title">Live Platforms</div>
-      <div class="pg-grid" id="monGallery"></div>
     </div>
 
     <!-- ══════════════════════════════════════
@@ -894,7 +883,7 @@ const UI_TEXT={
     'gallery.platform':'Platform:',
     'common.all':'All',
     'common.published':'Published',
-    'common.waitingApproval':'Waiting Approval',
+    'common.waitingApproval':'Pending Approval',
     'common.deleted':'Deleted',
     'common.indicators':'Indicators',
     'common.cancel':'Cancel',
@@ -904,7 +893,7 @@ const UI_TEXT={
     'common.saveChanges':'Save Changes',
     'common.characters':'characters',
     'compose.tabCompose':'Compose',
-    'compose.tabWaiting':'Waiting Approval',
+    'compose.tabWaiting':'Pending Approval',
     'compose.tabPublished':'Published',
     'compose.message':'Message',
     'compose.media':'Media',
@@ -1312,7 +1301,6 @@ function applyStaticTranslations(){
   setTextContent('#createBtn',t('login.createAccount'));
   setTitleAttr('#nav-gallery',t('nav.gallery'));
   setTitleAttr('#nav-compose',t('nav.compose'));
-  setTitleAttr('#nav-monitor',t('nav.monitor'));
   setTitleAttr('#nav-settings',t('nav.settings'));
   setTitleAttr('#logoutBtn',t('topbar.signOut'));
   setInlineLabel(document.querySelector('.edit-hint'),t('topbar.renameHint'));
@@ -1358,11 +1346,10 @@ function applyStaticTranslations(){
   setInlineLabel(indicatorBtn,t('common.indicators'));
   setTitleAttr('#vbtn-tbl',t('gallery.postsTab'));
   setTitleAttr('#vbtn-gal',t('gallery.performanceTab'));
-  const kpiLabels=document.querySelectorAll('#page-monitor .kpi-lbl');
+  const kpiLabels=document.querySelectorAll('#gpanel-perf .kpi-lbl');
   [t('monitor.totalReach'),t('monitor.avgEngagement'),t('monitor.postsPublished'),t('monitor.avgImpact')].forEach((label,index)=>setTextContent(kpiLabels[index],label));
-  const kpiDeltas=document.querySelectorAll('#page-monitor .kpi-d');
+  const kpiDeltas=document.querySelectorAll('#gpanel-perf .kpi-d');
   [t('monitor.deltaReach'),t('monitor.deltaEngagement'),t('monitor.deltaPosts'),t('monitor.deltaImpact')].forEach((label,index)=>setTextContent(kpiDeltas[index],label));
-  setTextContent('#page-monitor .sec-title',t('monitor.livePlatforms'));
   setTextContent('.sn-lbl',t('settings.label'));
   const settingsNav=document.querySelectorAll('.sn-item');
   [t('settings.platformStyles'),t('settings.colorSchema'),t('settings.integrations'),t('settings.team'),t('settings.scoring')].forEach((label,index)=>setInlineLabel(settingsNav[index],label));
@@ -1412,7 +1399,6 @@ function setUILanguage(lang,persist=true){
   }
   applyStaticTranslations();
   buildGallery();
-  buildMonGallery();
   buildTeamTable();
   renderWFA();
   renderPublished();
@@ -1898,7 +1884,7 @@ async function initAuth(){
 document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 document.getElementById('authPassword').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 captureIntegrationReturnFromUrl();
-buildGallery(); buildMonGallery(); buildTeamTable(); renderWFA(); renderPublished(); renderPerfTable(); renderIndicatorDropdown(); renderPerfIndicatorDropdown();
+buildGallery(); buildTeamTable(); renderWFA(); renderPublished(); renderPerfTable(); renderIndicatorDropdown(); renderPerfIndicatorDropdown();
 renderIntegrations('Sign in with Firebase first to connect live platform accounts.');
 initAuth();
 
@@ -1958,11 +1944,6 @@ function buildGallery(){
         <div class="conn-pill"><span style="width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block"></span>live</div>
       </div>
     </div>`;}).join('');
-}
-
-function buildMonGallery(){
-  const g=document.getElementById('monGallery');
-  g.innerHTML=PLATS.map(p=>`<div class="pc"><div class="pc-head"><div class="picon" style="background:${p.bg};font-size:12px;font-weight:800;color:#fff;">${p.icon}</div><div><div class="pc-name">${p.name}</div><div class="pc-handle">${p.handle}</div></div></div><div class="pc-feed">${p.posts.map(post=>`<div class="pi"><div class="pi-txt">${post.txt}</div><div class="pi-meta"><span class="pi-time">${post.time}</span><span class="pi-stat">♥ ${post.likes}</span><span class="pi-stat">↺ ${post.shares}</span>${post.live?'<span class="live-badge">LIVE</span>':''}</div></div>`).join('')}</div><div class="pc-foot"><div class="spill"><b>${p.followers}</b></div><div class="spill"><b>${p.eng}</b> eng</div><div class="conn-pill"><span style="width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block"></span></div></div></div>`).join('');
 }
 
 /* ═══ GALLERY FILTERS ════════════════════════ */
