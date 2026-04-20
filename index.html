@@ -667,7 +667,7 @@ input.txt-input:focus{border-color:var(--acc);}
         <div class="set-nav">
           <div class="sn-lbl">Settings</div>
           <div class="sn-item active" onclick="setSnav(this,'sn-styles')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Platform Styles</div>
-          <div class="sn-item" onclick="setSnav(this,'sn-schema')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 20a8 8 0 100-16v16z"/></svg>Color Schema</div>
+          <div class="sn-item" onclick="setSnav(this,'sn-schema')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 20a8 8 0 100-16v16z"/></svg>Preferences</div>
           <div class="sn-item" onclick="setSnav(this,'sn-integrations');loadIntegrations()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8"/><path d="M12 8v8"/><path d="M3 12a9 9 0 0118 0"/><path d="M21 12a9 9 0 01-18 0"/></svg>Integrations</div>
           <div class="sn-item" onclick="setSnav(this,'sn-team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Team</div>
           <div class="sn-item" onclick="setSnav(this,'sn-score')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Scoring</div>
@@ -682,9 +682,9 @@ input.txt-input:focus{border-color:var(--acc);}
             <div style="height:11px"></div>
             <div class="psc"><div class="psc-head"><div class="picon" style="background:linear-gradient(135deg,#f09433,#e1306c);">📷</div><div><div class="psc-title">Instagram</div><div class="psc-sub">Visual storytelling</div></div><div style="margin-left:auto;display:flex;gap:7px"><button class="btn btn-ghost btn-sm">Test</button><button class="btn btn-primary btn-sm" onclick="toast('Saved ✓')">Save</button></div></div><div class="psc-body"><div class="fl">Style Prompt</div><textarea class="prompt-area">Visual-first caption. Attention-grabbing first line. Natural emojis. Clear CTA. 10-20 hashtags at end.</textarea><div class="stags"><span class="stag on">Visual</span><span class="stag on">Warm</span><span class="stag on">Emoji-rich</span><span class="stag on">CTA</span></div></div></div>
           </div>
-          <!-- Color Schema -->
+          <!-- Preferences -->
           <div id="sn-schema" style="display:none">
-            <div class="sec-title">Color Schema</div>
+            <div class="sec-title">Preferences</div>
             <div class="card" style="padding:20px">
               <div style="font-size:15px;font-weight:700;margin-bottom:5px">Choose accent color</div>
               <div style="font-size:13px;color:var(--muted);margin-bottom:18px">Applied across all buttons, highlights, and active states.</div>
@@ -943,7 +943,7 @@ const UI_TEXT={
     'settings.alignLeft':'Left',
     'settings.alignRight':'Right',
     'settings.platformStyles':'Platform Styles',
-    'settings.colorSchema':'Color Schema',
+    'settings.colorSchema':'Preferences',
     'settings.integrations':'Integrations',
     'settings.realIntegrations':'Real Integrations',
     'settings.team':'Team',
@@ -1124,7 +1124,7 @@ const UI_TEXT={
     'settings.alignLeft':'שמאל',
     'settings.alignRight':'ימין',
     'settings.platformStyles':'סגנונות פלטפורמה',
-    'settings.colorSchema':'ערכת צבעים',
+    'settings.colorSchema':'העדפות',
     'settings.integrations':'אינטגרציות',
     'settings.realIntegrations':'אינטגרציות אמיתיות',
     'settings.team':'צוות',
@@ -1287,15 +1287,17 @@ function updateCounterLabel(id,max=null){
 }
 
 function renderLanguagePreferenceCard(){
-  const setBody=document.querySelector('#page-settings .set-body');
-  if(!setBody)return;
+  const schemaSection=document.getElementById('sn-schema');
+  if(!schemaSection)return;
   let card=document.getElementById('uiLanguageCard');
   if(!card){
     card=document.createElement('div');
     card.id='uiLanguageCard';
     card.className='card lang-pref-card';
-    setBody.prepend(card);
   }
+  const sectionTitle=schemaSection.querySelector('.sec-title');
+  if(sectionTitle)sectionTitle.insertAdjacentElement('afterend',card);
+  else schemaSection.prepend(card);
   const alignmentControls=currentUILang==='he'?`
     <div class="lang-pref-subhead">${t('settings.hebrewAlignment')}</div>
     <div class="lang-pref-desc">${t('settings.hebrewAlignmentDesc')}</div>
