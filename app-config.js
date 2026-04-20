@@ -1,3 +1,3 @@
 window.POSTIT_APP_CONFIG = {
-  apiBaseUrl: ''
+  apiBaseUrl: 'https://postit-production-029c.up.railway.app'
 };
