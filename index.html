@@ -1882,10 +1882,9 @@ async function initAuth(){
 }
 
 /* ═══ INIT ════════════════════════════════════ */
-document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 document.getElementById('authPassword').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 captureIntegrationReturnFromUrl();
-buildGallery(); buildTeamTable(); renderWFA(); renderPublished(); renderPerfTable(); renderIndicatorDropdown(); renderPerfIndicatorDropdown();
+setUILanguage(currentUILang,false);
 renderIntegrations('Sign in with Firebase first to connect live platform accounts.');
 initAuth();
 
