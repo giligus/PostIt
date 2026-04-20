@@ -589,7 +589,7 @@ input.txt-input:focus{border-color:var(--acc);}
               <div style="padding:15px 17px">
                 <div class="mode-toggle"><button class="mode-btn active" onclick="setMode('auto',this)">⚡ Auto-Style</button><button class="mode-btn" onclick="setMode('manual',this)">✍️ Manual</button></div>
                 <div id="auto-mode"><div class="fl">Master Message</div><textarea class="msg-area" id="master-msg" placeholder="Write your core message. Auto-Style adapts it for each platform…" oninput="updatePreview()" onkeyup="updateCC(this,'mcc')"></textarea><div class="char-c" id="mcc">0 characters</div><div class="info-box"><b>⚡ Auto-Style Active</b>Platform prompts adapt this message automatically. Configure in Settings → Platform Styles.</div></div>
-                <div id="manual-mode" style="display:none"><div class="ptabs"><div class="ptab active" style="color:var(--tw)" onclick="switchPtab(this)"><span class="dot" style="background:var(--tw)"></span>Twitter</div><div class="ptab" style="color:var(--li)" onclick="switchPtab(this)"><span class="dot" style="background:var(--li)"></span>LinkedIn</div><div class="ptab" style="color:var(--ig)" onclick="switchPtab(this)"><span class="dot" style="background:var(--ig)"></span>Instagram</div><div class="ptab" style="color:var(--fb)" onclick="switchPtab(this)"><span class="dot" style="background:var(--fb)"></span>Facebook</div></div><textarea class="msg-area" placeholder="Write for this platform…" oninput="updatePreview()" onkeyup="updateCC(this,'mcc2')"></textarea><div class="char-c" id="mcc2">0 / 280</div></div>
+                <div id="manual-mode" style="display:none"><div class="ptabs"><div class="ptab active" data-platform="Twitter" style="color:var(--tw)" onclick="switchPtab(this,'Twitter')"><span class="dot" style="background:var(--tw)"></span>Twitter</div><div class="ptab" data-platform="LinkedIn" style="color:var(--li)" onclick="switchPtab(this,'LinkedIn')"><span class="dot" style="background:var(--li)"></span>LinkedIn</div><div class="ptab" data-platform="Instagram" style="color:var(--ig)" onclick="switchPtab(this,'Instagram')"><span class="dot" style="background:var(--ig)"></span>Instagram</div><div class="ptab" data-platform="Facebook" style="color:var(--fb)" onclick="switchPtab(this,'Facebook')"><span class="dot" style="background:var(--fb)"></span>Facebook</div><div class="ptab" data-platform="YouTube" style="color:var(--yt)" onclick="switchPtab(this,'YouTube')"><span class="dot" style="background:var(--yt)"></span>YouTube</div><div class="ptab" data-platform="TikTok" style="color:var(--tk)" onclick="switchPtab(this,'TikTok')"><span class="dot" style="background:var(--tk)"></span>TikTok</div></div><textarea class="msg-area" id="manual-msg" placeholder="Write for this platform…" oninput="updateManualMessage(this.value);updatePreview()" onkeyup="updateCC(this,'mcc2')"></textarea><div class="char-c" id="mcc2">0 / 280</div></div>
               </div>
             </div>
             <div class="card">
@@ -614,7 +614,7 @@ input.txt-input:focus{border-color:var(--acc);}
                 </div>
                 <div class="fl">Schedule</div>
                 <div class="tog-row" style="margin-bottom:14px"><div class="tog" id="schedTog" onclick="toggleSched()"></div><span style="font-size:13px;color:var(--muted)">Schedule for later</span><input type="datetime-local" class="date-input" id="schedInput" style="display:none;margin-left:8px"></div>
-                <div style="display:flex;gap:8px"><button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="toast('Draft saved ✓')">Save Draft</button><button class="btn btn-primary" style="flex:2;justify-content:center" onclick="publishPost()">🚀 Publish Now</button></div>
+                <div style="display:flex;gap:8px"><button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="toast('Draft saved ✓')">Save Draft</button><button class="btn btn-primary" style="flex:2;justify-content:center" onclick="publishPost()">🚀 Confirm</button></div>
               </div>
             </div>
           </div>
@@ -852,6 +852,8 @@ let pubView='table'; // 'table' | 'gallery'
 let sortState={col:null,dir:'asc'};
 let perfSortState={col:null,dir:'asc'};
 let galleryStatusFilter='all', galleryPlatformFilter='all';
+let manualPlatform='Twitter';
+let manualMessages={Twitter:'',LinkedIn:'',Instagram:'',Facebook:'',YouTube:'',TikTok:''};
 const UI_LANG_STORAGE_KEY='postit_ui_lang';
 let currentUILang='en';
 try{
@@ -1244,6 +1246,24 @@ function setInlineLabel(target,text){
   else el.append(document.createTextNode(' '+text));
 }
 
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>"']/g,char=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[char]));
+}
+
+function getUserTypeLabel(type){
+  return t(`userType.${type}`);
+}
+
+function canUserTypeApprove(type){
+  return type==='admin' || type==='approver';
+}
+
 function renderTodayDate(){
   const today=document.getElementById('todayDate');
   if(!today)return;
@@ -1315,7 +1335,7 @@ function applyStaticTranslations(){
   setInlineLabel(modeBtns[1],t('compose.manualMode'));
   setTextContent('#auto-mode .fl',t('compose.masterMessage'));
   setPlaceholder('#master-msg',t('compose.masterPlaceholder'));
-  setPlaceholder('#manual-mode textarea',t('compose.manualPlaceholder'));
+  setPlaceholder('#manual-msg',t('compose.manualPlaceholder'));
   updateCounterLabel('mcc');
   updateCounterLabel('mcc2',280);
   const infoBox=document.querySelector('#auto-mode .info-box');
@@ -1353,7 +1373,7 @@ function applyStaticTranslations(){
   setTextContent('#sn-team .card > div:first-child > div:first-child',t('settings.manageApprovals'));
   setTextContent('#sn-team .card > div:first-child .btn',t('settings.addMember'));
   const teamHeaders=document.querySelectorAll('#teamTable thead th');
-  [t('settings.name'),t('login.email'),t('settings.department'),t('settings.role'),t('settings.canApprove'),''].forEach((label,index)=>setTextContent(teamHeaders[index],label));
+  [t('settings.name'),t('login.email'),t('settings.department'),t('settings.role'),t('settings.userType'),t('settings.canApprove'),''].forEach((label,index)=>setTextContent(teamHeaders[index],label));
   setTextContent('#sn-score .sec-title',t('settings.scoringCriteria'));
   setTextContent('#sn-score .card > div:first-child',t('settings.scoringDesc'));
   const scoreLabels=document.querySelectorAll('#sn-score span[style*="min-width:140px"]');
@@ -1378,8 +1398,11 @@ function applyStaticTranslations(){
   const pingBtns=document.querySelectorAll('#pingModal .btn');
   setTextContent(pingBtns[0],t('common.cancel'));
   setInlineLabel(pingBtns[1],t('modal.sendPing'));
+  setTextContent('#wfaDetailsTitle',t('modal.detailsTitle'));
+  setTextContent('#wfaDetailsCloseBtn',t('common.close'));
   renderTodayDate();
   renderLanguagePreferenceCard();
+  if(wfaDetailsId!==null)renderWfaDetails();
 }
 
 function setUILanguage(lang,persist=true){
@@ -1397,6 +1420,7 @@ function setUILanguage(lang,persist=true){
   renderIndicatorDropdown();
   renderPerfIndicatorDropdown();
   renderIntegrations();
+  if(wfaDetailsId!==null)renderWfaDetails();
   setAuthChrome(currentUser,null);
 }
 
@@ -1974,10 +1998,48 @@ function switchSub(t){
 }
 
 /* ═══ COMPOSE HELPERS ════════════════════════ */
-function setMode(m,btn){document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('auto-mode').style.display=m==='auto'?'block':'none';document.getElementById('manual-mode').style.display=m==='manual'?'block':'none';}
-function switchPtab(el){document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
-function updatePreview(){const txt=document.getElementById('master-msg').value;const p=document.getElementById('preview-txt');if(txt.trim()){p.style.color='var(--text2)';p.style.fontStyle='normal';p.textContent=txt;}else{p.style.color='var(--muted2)';p.style.fontStyle='italic';p.textContent='Your message appears here…';}}
-function updateCC(el,id){const e=document.getElementById(id);if(e)e.textContent=el.value.length+' characters';}
+function setMode(m,btn){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('auto-mode').style.display=m==='auto'?'block':'none';
+  document.getElementById('manual-mode').style.display=m==='manual'?'block':'none';
+  if(m==='manual'){
+    const activeTab=document.querySelector('.ptab.active');
+    if(activeTab)switchPtab(activeTab,activeTab.dataset.platform || manualPlatform);
+  }else{
+    updatePreview();
+  }
+}
+function switchPtab(el,platform){
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  manualPlatform=platform;
+  const textarea=document.getElementById('manual-msg');
+  if(textarea){
+    textarea.value=manualMessages[platform] || '';
+    updateCC(textarea,'mcc2');
+  }
+  updatePreview();
+}
+function updateManualMessage(value){
+  manualMessages[manualPlatform]=value;
+  updateCounterLabel('mcc2',280);
+}
+function updatePreview(){
+  const isManual=document.getElementById('manual-mode').style.display!=='none';
+  const txt=isManual?(manualMessages[manualPlatform] || ''):document.getElementById('master-msg').value;
+  const p=document.getElementById('preview-txt');
+  if(txt.trim()){
+    p.style.color='var(--text2)';
+    p.style.fontStyle='normal';
+    p.textContent=txt;
+  }else{
+    p.style.color='var(--muted2)';
+    p.style.fontStyle='italic';
+    p.textContent=t('compose.previewPlaceholder');
+  }
+}
+function updateCC(el,id){const e=document.getElementById(id);if(!e)return;e.textContent=id==='mcc2'?`${el.value.length} / 280`:`${el.value.length} ${t('common.characters')}`;}
 function handleImgs(e){Array.from(e.target.files).forEach(addImg);}
 function handleDrop(e){e.preventDefault();e.currentTarget.style.borderColor='';Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/')).forEach(addImg);}
 function addImg(file){const r=new FileReader();r.onload=ev=>{const id=Date.now()+'_'+Math.random();uploads.push({id,src:ev.target.result});renderUploads();updatePhImg();};r.readAsDataURL(file);}
@@ -1988,16 +2050,33 @@ function toggleSched(){const t=document.getElementById('schedTog'),i=document.ge
 
 /* ═══ PUBLISH ════════════════════════════════ */
 async function publishPost(){
-  const txt=document.getElementById('master-msg').value.trim();
-  if(!txt){toast('Please write a message first');return;}
   const sel=document.querySelectorAll('.psel.selected');
   if(!sel.length){toast('Select at least one platform');return;}
   const platforms=[...sel].map(s=>s.querySelector('.psel-name').textContent);
+  const isManual=document.getElementById('manual-mode').style.display!=='none';
+  const publishItems=isManual
+    ? platforms.map(platform=>({platform,text:(manualMessages[platform] || '').trim()}))
+    : platforms.map(platform=>({platform,text:document.getElementById('master-msg').value.trim()}));
+  const missingItems=publishItems.filter(item=>!item.text);
+  if(isManual && missingItems.length){
+    toast('Add manual copy for: '+missingItems.map(item=>item.platform).join(', '));
+    return;
+  }
+  if(!isManual && !publishItems[0]?.text){
+    toast('Please write a message first');
+    return;
+  }
 
   if(!(firebaseEnabled && currentUser && getApiBaseUrl())){
-    platforms.forEach(pn=>addPublishedEntry(pn,txt));
-    document.getElementById('master-msg').value='';
-    uploads=[];renderUploads();updatePhImg();updatePreview();
+    publishItems.forEach(item=>addPublishedEntry(item.platform,item.text));
+    if(isManual){
+      publishItems.forEach(item=>{manualMessages[item.platform]='';});
+      const textarea=document.getElementById('manual-msg');
+      if(textarea)textarea.value=manualMessages[manualPlatform] || '';
+    }else{
+      document.getElementById('master-msg').value='';
+    }
+    uploads=[];renderUploads();updatePhImg();updatePreview();updateCounterLabel('mcc');updateCounterLabel('mcc2',280);
     document.getElementById('pubCount').textContent=published.length;
     renderPublished();
     toast('Published locally in demo mode. Connect the backend for live posting.');
@@ -2005,10 +2084,10 @@ async function publishPost(){
   }
 
   const liveResults=[],blocked=[];
-  for(const pn of platforms){
-    const publishConfig=resolvePlatformPublishConfig(pn);
+  for(const item of publishItems){
+    const publishConfig=resolvePlatformPublishConfig(item.platform);
     if(publishConfig.error){
-      blocked.push(`${pn}: ${publishConfig.error}`);
+      blocked.push(`${item.platform}: ${publishConfig.error}`);
       continue;
     }
 
@@ -2017,23 +2096,31 @@ async function publishPost(){
         method:'POST',
         body:{
           provider:publishConfig.provider,
-          text:txt,
+          text:item.text,
           targetId:publishConfig.targetId
         }
       });
-      addPublishedEntry(pn,txt,{
+      addPublishedEntry(item.platform,item.text,{
         externalId:data.result?.postId || '',
         externalUrl:data.result?.url || ''
       });
-      liveResults.push(pn);
+      liveResults.push(item.platform);
     }catch(error){
-      blocked.push(`${pn}: ${error.message}`);
+      blocked.push(`${item.platform}: ${error.message}`);
     }
   }
 
   if(liveResults.length){
-    document.getElementById('master-msg').value='';
+    if(isManual){
+      liveResults.forEach(platform=>{manualMessages[platform]='';});
+      const textarea=document.getElementById('manual-msg');
+      if(textarea)textarea.value=manualMessages[manualPlatform] || '';
+    }else{
+      document.getElementById('master-msg').value='';
+    }
     uploads=[];renderUploads();updatePhImg();updatePreview();
+    updateCounterLabel('mcc');
+    updateCounterLabel('mcc2',280);
   }
 
   document.getElementById('pubCount').textContent=published.length;
@@ -2188,35 +2275,93 @@ function renderWFA(){
         <div class="wfa-time">${p.time}</div>
       </div>
       <div class="wfa-txt">${p.txt}</div>
-      <div class="wfa-reason">⏳ <b>Waiting reason:</b> ${p.reason}</div>
+      <div class="wfa-reason">⏳ <b>${t('wfa.waitingReason')}</b> ${p.reason}</div>
       <div class="wfa-approvers">
         ${p.approvers.map(a=>`<div class="wfa-appr">
           <div class="avt" style="width:24px;height:24px;font-size:10px;background:${a.color};color:${a.textColor}">${a.ini}</div>
-          <div><div class="wfa-appr-name">${a.name}</div><div class="wfa-appr-status" style="color:${a.ok?'var(--green)':'var(--yellow)'}">${a.ok?'✓ Approved':'⏳ Pending'}</div></div>
-          ${!a.ok?`<button class="btn btn-warn btn-xs" style="margin-left:6px" onclick="openPing('${a.name}','${p.txt.substring(0,40)}…')">📨 Ping</button>`:''}
+          <div><div class="wfa-appr-name">${a.name}</div><div class="wfa-appr-status" style="color:${a.ok?'var(--green)':'var(--yellow)'}">${a.ok?`✓ ${t('status.approved')}`:`⏳ ${t('status.pending')}`}</div></div>
+          ${!a.ok?`<button class="btn btn-warn btn-xs" style="margin-left:6px" onclick='openPing(${JSON.stringify(a.name)},${JSON.stringify(`${p.txt.substring(0,40)}…`)})'>📨 ${t('wfa.ping')}</button>`:''}
         </div>`).join('')}
       </div>
       <div class="wfa-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEdit(${p.id})">✏️ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="openDel(${p.id})">🗑 Remove</button>
+        <button class="btn btn-ghost btn-sm" onclick="openWfaDetails(${p.id})">${t('wfa.moreDetails')}</button>
+        <button class="btn btn-ghost btn-sm" onclick="openEdit(${p.id})">✏️ ${t('wfa.edit')}</button>
+        <button class="btn btn-danger btn-sm" onclick="openDel(${p.id})">🗑 ${t('wfa.remove')}</button>
       </div>
     </div>`).join(''):
-    '<div style="text-align:center;padding:40px;color:var(--muted2);font-size:14px">✅ No posts waiting for approval</div>';
+    `<div style="text-align:center;padding:40px;color:var(--muted2);font-size:14px">✅ ${t('wfa.empty')}</div>`;
 }
 
 /* ═══ EDIT / DELETE ═══════════════════════════ */
 function openEdit(id){editId=id;const p=[...published,...waitingPosts].find(x=>x.id===id);if(!p)return;document.getElementById('editArea').value=p.txt;document.getElementById('editPlat').textContent=p.platform;document.getElementById('editImgPrev').innerHTML=p.imgSrc?`<img src="${p.imgSrc}" style="width:70px;height:70px;object-fit:cover;border-radius:9px;border:1.5px solid var(--border)">` : '';document.getElementById('editModal').classList.add('open');}
 function closeEdit(){document.getElementById('editModal').classList.remove('open');editId=null;}
 function handleEditImg(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const p=[...published,...waitingPosts].find(x=>x.id===editId);if(p){p.imgSrc=ev.target.result;p.hasImg=true;}document.getElementById('editImgPrev').innerHTML=`<img src="${ev.target.result}" style="width:70px;height:70px;object-fit:cover;border-radius:9px;border:1.5px solid var(--border)">`;};r.readAsDataURL(f);}
-function saveEdit(){const p=[...published,...waitingPosts].find(x=>x.id===editId);if(p)p.txt=document.getElementById('editArea').value;closeEdit();renderPublished();renderWFA();toast('Post updated ✓');}
+function saveEdit(){const p=[...published,...waitingPosts].find(x=>x.id===editId);if(p)p.txt=document.getElementById('editArea').value;closeEdit();renderPublished();renderWFA();if(wfaDetailsId===editId)renderWfaDetails();toast('Post updated ✓');}
 function openDel(id){delId=id;document.getElementById('delModal').classList.add('open');}
 function closeDel(){document.getElementById('delModal').classList.remove('open');delId=null;}
-function confirmDel(){published=published.filter(p=>p.id!==delId);waitingPosts=waitingPosts.filter(p=>p.id!==delId);document.getElementById('pubCount').textContent=published.length;closeDel();renderPublished();renderWFA();toast('Post deleted');}
+function confirmDel(){published=published.filter(p=>p.id!==delId);waitingPosts=waitingPosts.filter(p=>p.id!==delId);if(wfaDetailsId===delId)closeWfaDetails();document.getElementById('pubCount').textContent=published.length;closeDel();renderPublished();renderWFA();toast('Post deleted');}
 
 /* ═══ PING ════════════════════════════════════ */
 function openPing(name,postPreview){pingData={name,postPreview};document.getElementById('pingTo').textContent=name;document.getElementById('pingMsg').value=`Hi ${name}, just a gentle reminder to review: "${postPreview}"`;document.getElementById('pingModal').classList.add('open');}
 function closePing(){document.getElementById('pingModal').classList.remove('open');pingData=null;}
 function sendPing(){closePing();toast('Ping sent to '+pingData?.name+' 📨');}
+
+function renderWfaDetails(){
+  const post=waitingPosts.find(item=>item.id===wfaDetailsId);
+  const body=document.getElementById('wfaDetailsBody');
+  if(!body)return;
+  if(!post){
+    body.innerHTML='';
+    return;
+  }
+  setTextContent('#wfaDetailsTitle',t('modal.detailsTitle'));
+  setTextContent('#wfaDetailsCloseBtn',t('common.close'));
+  body.innerHTML=`
+    <div class="detail-summary">
+      <div class="detail-summary-head">
+        <div class="wfa-platform" style="color:${post.plColor};border-color:${post.plColor}">${escapeHtml(post.platform)}</div>
+        <div class="detail-summary-time">${escapeHtml(post.time)}</div>
+      </div>
+      <div class="detail-section-title">${t('modal.postSummary')}</div>
+      <div class="detail-summary-text">${escapeHtml(post.txt)}</div>
+      <div class="wfa-reason" style="margin:12px 0 0">⏳ <b>${t('modal.reason')}</b> ${escapeHtml(post.reason)}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">${t('modal.pipeline')}</div>
+      <div class="detail-pipeline">
+        ${post.pipeline.map(step=>`
+          <div class="detail-step ${step.status}">
+            <div class="detail-step-marker"></div>
+            <div>
+              <div class="detail-step-head">
+                <div class="detail-step-name">${t(`pipeline.${step.step}`)}</div>
+                <div class="detail-step-status">${t(`pipeline.status.${step.status}`)}</div>
+              </div>
+              <div class="detail-step-note">${escapeHtml(step.note)}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">${t('modal.approverNotes')}</div>
+      <div class="detail-approvers">
+        ${post.approvers.map(approver=>`
+          <div class="detail-note-card">
+            <div class="detail-note-head">
+              <div class="avt" style="width:28px;height:28px;font-size:11px;background:${approver.color};color:${approver.textColor}">${escapeHtml(approver.ini)}</div>
+              <div>
+                <div class="detail-note-name">${escapeHtml(approver.name)}</div>
+                <div class="detail-note-meta">${escapeHtml(approver.dept || '')}</div>
+              </div>
+              <div class="detail-note-status ${approver.ok?'ok':'pending'}">${approver.ok?t('status.approved'):t('status.pending')}</div>
+            </div>
+            <div class="detail-note-text">${escapeHtml(approver.note || t('modal.noNote'))}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+function openWfaDetails(id){wfaDetailsId=id;renderWfaDetails();document.getElementById('wfaDetailsModal').classList.add('open');}
+function closeWfaDetails(){document.getElementById('wfaDetailsModal').classList.remove('open');wfaDetailsId=null;}
 
 /* ═══ SETTINGS ════════════════════════════════ */
 function setSnav(el,pid){document.querySelectorAll('.sn-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');['sn-styles','sn-schema','sn-integrations','sn-team','sn-score'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=id===pid?'':'none';});}
@@ -2224,22 +2369,30 @@ function applySchema(name,el){document.getElementById('appShell').setAttribute('
 document.querySelectorAll('.stag').forEach(t=>t.addEventListener('click',()=>t.classList.toggle('on')));
 
 /* ═══ TEAM TABLE ══════════════════════════════ */
+function setTeamMemberUserType(id,value){
+  const member=teamMembers.find(item=>item.id===id);
+  if(!member)return;
+  member.userType=value;
+  member.canApprove=canUserTypeApprove(value);
+  buildTeamTable();
+}
 function buildTeamTable(){
   document.getElementById('teamBody').innerHTML=teamMembers.map(m=>`
     <tr>
-      <td><input value="${m.name}" onchange="teamMembers.find(t=>t.id===${m.id}).name=this.value"></td>
-      <td><input value="${m.email}" onchange="teamMembers.find(t=>t.id===${m.id}).email=this.value"></td>
-      <td><input value="${m.dept}" onchange="teamMembers.find(t=>t.id===${m.id}).dept=this.value"></td>
-      <td><input value="${m.role}" onchange="teamMembers.find(t=>t.id===${m.id}).role=this.value"></td>
-      <td><div class="tog ${m.canApprove?'on':''}" onclick="teamMembers.find(t=>t.id===${m.id}).canApprove=!teamMembers.find(t=>t.id===${m.id}).canApprove;this.classList.toggle('on')"></div></td>
+      <td><input value="${escapeHtml(m.name)}" onchange="teamMembers.find(t=>t.id===${m.id}).name=this.value"></td>
+      <td><input value="${escapeHtml(m.email)}" onchange="teamMembers.find(t=>t.id===${m.id}).email=this.value"></td>
+      <td><input value="${escapeHtml(m.dept)}" onchange="teamMembers.find(t=>t.id===${m.id}).dept=this.value"></td>
+      <td><input value="${escapeHtml(m.role)}" onchange="teamMembers.find(t=>t.id===${m.id}).role=this.value"></td>
+      <td><select class="sel-input" onchange="setTeamMemberUserType(${m.id},this.value)">${USER_TYPES.map(type=>`<option value="${type}" ${type===(m.userType || 'reader')?'selected':''}>${getUserTypeLabel(type)}</option>`).join('')}</select></td>
+      <td><div class="tog readonly ${canUserTypeApprove(m.userType || 'reader')?'on':''}"></div></td>
       <td><button class="btn btn-danger btn-xs" onclick="removeTeamMember(${m.id})">Remove</button></td>
     </tr>`).join('');
 }
-function addTeamMember(){teamMembers.push({id:Date.now(),name:'New Member',email:'',dept:'',role:'',canApprove:false});buildTeamTable();toast('Team member added');}
+function addTeamMember(){teamMembers.push({id:Date.now(),name:t('team.newMember'),email:'',dept:'',role:'',userType:'reader',canApprove:false});buildTeamTable();toast('Team member added');}
 function removeTeamMember(id){teamMembers=teamMembers.filter(m=>m.id!==id);buildTeamTable();}
 
 /* ═══ MODALS BACKDROP ══════════════════════════ */
-['editModal','delModal','pingModal'].forEach(id=>{document.getElementById(id).addEventListener('click',function(e){if(e.target===this){if(id==='editModal')closeEdit();else if(id==='delModal')closeDel();else closePing();}});});
+['editModal','delModal','pingModal','wfaDetailsModal'].forEach(id=>{document.getElementById(id).addEventListener('click',function(e){if(e.target===this){if(id==='editModal')closeEdit();else if(id==='delModal')closeDel();else if(id==='pingModal')closePing();else closeWfaDetails();}});});
 
 /* ═══ TOAST ════════════════════════════════════ */
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2800);}
