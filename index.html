@@ -148,9 +148,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .cnt-badge.orange{background:rgba(249,115,22,.12);color:var(--orange);}
 
 /* ═══ COMPOSE PANEL ═════════════════════════════════════ */
-.compose-wrap{display:grid;grid-template-columns:1fr 285px;gap:16px;}
-.compose-col{display:flex;flex-direction:column;gap:15px;}
-.compose-wrap > .compose-col:first-child{width:min(60%,42rem);max-width:100%;justify-self:start;}
+.compose-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,420px);gap:18px;align-items:start;}
+.compose-col{display:flex;flex-direction:column;gap:15px;min-width:0;}
+.compose-side-col{width:100%;justify-self:end;gap:18px;}
 .approval-add-btn{width:auto;min-width:12rem;max-width:100%;}
 .mode-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:4px;gap:4px;margin-bottom:14px;}
 .mode-btn{flex:1;padding:7px;border-radius:6px;border:none;background:transparent;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;color:var(--muted);transition:all .18s;}
@@ -191,7 +191,21 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .tog.on::after{left:18.5px;}
 .date-input{background:var(--surface2);border:1.5px solid var(--border);border-radius:7px;padding:5px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;}
 .date-input:focus{border-color:var(--acc);}
-@media (max-width:1100px){.compose-wrap > .compose-col:first-child{width:100%;}}
+.compose-side-col > .card{width:100%;}
+.compose-side-col > .card > .card-head{padding:16px 20px 14px;}
+.compose-side-col > .card > div:last-child{padding:16px 18px 18px !important;}
+.phone-frame{background:var(--surface2);border:1.5px solid var(--border);border-radius:18px;padding:16px;min-height:132px;}
+.ph-head{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+.ph-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+.ph-name{font-size:14px;font-weight:700;}
+.ph-time{font-size:11px;color:var(--muted2);margin-left:auto;font-family:'JetBrains Mono',monospace;}
+.ph-txt{font-size:14px;line-height:1.6;color:var(--text2);}
+.compose-side-col .step{gap:12px;padding:10px 0;}
+.compose-side-col .step-n{width:26px;height:26px;font-size:10px;}
+.compose-side-col .step:not(:last-child)::before{left:12px;top:34px;bottom:-10px;}
+.compose-side-col .step-lbl{font-size:15px;}
+.compose-side-col .step-desc{font-size:12px;}
+@media (max-width:1180px){.compose-wrap{grid-template-columns:1fr;}.compose-side-col{justify-self:stretch;}}
 .step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative;}
 .step:not(:last-child)::before{content:'';position:absolute;left:10px;top:30px;bottom:-8px;width:1.5px;background:var(--border);z-index:0;}
 .step-n{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;background:var(--surface2);border:1.5px solid var(--border2);color:var(--muted);position:relative;z-index:1;}
@@ -490,7 +504,7 @@ input.txt-input:focus{border-color:var(--acc);}
       <!-- Compose panel -->
       <div id="panel-c">
         <div class="compose-wrap">
-          <div class="compose-col">
+          <div class="compose-col compose-main-col">
             <div class="card">
               <div class="card-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span style="font-size:14px;font-weight:700">Message</span></div>
               <div style="padding:15px 17px">
@@ -526,7 +540,7 @@ input.txt-input:focus{border-color:var(--acc);}
             </div>
           </div>
           <!-- Right col -->
-          <div class="compose-col">
+          <div class="compose-col compose-side-col">
             <div class="card"><div class="card-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span style="font-size:14px;font-weight:700">Preview</span></div><div style="padding:12px 14px"><div class="phone-frame"><div class="ph-head"><div class="ph-av" id="ph-init">M</div><div><div class="ph-name" id="ph-cn">My Company</div></div><div class="ph-time">Just now</div></div><div class="ph-txt" id="preview-txt" style="color:var(--muted2);font-style:italic">Your message appears here…</div><div id="ph-img" style="display:none;margin-top:7px"></div></div></div></div>
             <div class="card"><div class="card-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span style="font-size:14px;font-weight:700">Pipeline</span></div><div style="padding:12px 14px"><div class="step done"><div class="step-n">✓</div><div><div class="step-lbl">Draft</div><div class="step-desc">Message ready</div></div></div><div class="step cur"><div class="step-n">2</div><div><div class="step-lbl">Approval</div><div class="step-desc">1 of 2 approved</div></div></div><div class="step"><div class="step-n">3</div><div><div class="step-lbl">Auto-Style</div><div class="step-desc">Platform adapt</div></div></div><div class="step"><div class="step-n">4</div><div><div class="step-lbl">Publish</div><div class="step-desc">Send to channels</div></div></div><div class="step"><div class="step-n">5</div><div><div class="step-lbl">Monitor</div><div class="step-desc">Track performance</div></div></div></div></div>
           </div>
