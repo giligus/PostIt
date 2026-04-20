@@ -322,6 +322,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .lang-pref-card{padding:18px 20px;}
 .lang-pref-head{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .lang-pref-desc{font-size:13px;color:var(--muted);margin-bottom:14px;}
+.lang-pref-subhead{font-size:13px;font-weight:700;color:var(--text);margin:4px 0 4px;}
 .lang-pref-actions{display:flex;gap:10px;flex-wrap:wrap;}
 .lang-pref-btn{min-width:120px;justify-content:center;}
 .psc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);}
@@ -845,11 +846,16 @@ let galleryStatusFilter='all', galleryPlatformFilter='all';
 let manualPlatform='Twitter';
 let manualMessages={Twitter:'',LinkedIn:'',Instagram:'',Facebook:'',YouTube:'',TikTok:''};
 const UI_LANG_STORAGE_KEY='postit_ui_lang';
+const UI_ALIGN_STORAGE_KEY='postit_ui_align';
 let currentUILang='en';
+let currentUIAlignment='right';
 try{
   currentUILang=window.localStorage.getItem(UI_LANG_STORAGE_KEY)==='he'?'he':'en';
+  const storedAlignment=window.localStorage.getItem(UI_ALIGN_STORAGE_KEY);
+  currentUIAlignment=storedAlignment==='left'?'left':'right';
 }catch(error){
   currentUILang='en';
+  currentUIAlignment='right';
 }
 const UI_TEXT={
   en:{
@@ -930,8 +936,12 @@ const UI_TEXT={
     'settings.label':'Settings',
     'settings.uiLanguage':'UI Language',
     'settings.uiLanguageDesc':'Choose the interface language for the dashboard.',
+    'settings.hebrewAlignment':'Hebrew Alignment',
+    'settings.hebrewAlignmentDesc':'Choose whether the Hebrew interface is laid out right-to-left or left-to-right.',
     'settings.english':'English',
     'settings.hebrew':'Hebrew',
+    'settings.alignLeft':'Left',
+    'settings.alignRight':'Right',
     'settings.platformStyles':'Platform Styles',
     'settings.colorSchema':'Color Schema',
     'settings.integrations':'Integrations',
@@ -1107,8 +1117,12 @@ const UI_TEXT={
     'settings.label':'הגדרות',
     'settings.uiLanguage':'שפת ממשק',
     'settings.uiLanguageDesc':'בחרו את שפת הממשק של הדשבורד.',
+    'settings.hebrewAlignment':'יישור ממשק בעברית',
+    'settings.hebrewAlignmentDesc':'בחרו אם ממשק בעברית יוצג מימין לשמאל או משמאל לימין.',
     'settings.english':'English',
     'settings.hebrew':'עברית',
+    'settings.alignLeft':'שמאל',
+    'settings.alignRight':'ימין',
     'settings.platformStyles':'סגנונות פלטפורמה',
     'settings.colorSchema':'ערכת צבעים',
     'settings.integrations':'אינטגרציות',
@@ -1254,6 +1268,11 @@ function canUserTypeApprove(type){
   return type==='admin' || type==='approver';
 }
 
+function getEffectiveUIDirection(){
+  if(currentUILang!=='he')return'ltr';
+  return currentUIAlignment==='left'?'ltr':'rtl';
+}
+
 function renderTodayDate(){
   const today=document.getElementById('todayDate');
   if(!today)return;
@@ -1277,18 +1296,26 @@ function renderLanguagePreferenceCard(){
     card.className='card lang-pref-card';
     setBody.prepend(card);
   }
+  const alignmentControls=currentUILang==='he'?`
+    <div class="lang-pref-subhead">${t('settings.hebrewAlignment')}</div>
+    <div class="lang-pref-desc">${t('settings.hebrewAlignmentDesc')}</div>
+    <div class="lang-pref-actions">
+      <button class="btn ${currentUIAlignment==='right'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setHebrewAlignment('right')">${t('settings.alignRight')}</button>
+      <button class="btn ${currentUIAlignment==='left'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setHebrewAlignment('left')">${t('settings.alignLeft')}</button>
+    </div>`:'';
   card.innerHTML=`
     <div class="lang-pref-head">${t('settings.uiLanguage')}</div>
     <div class="lang-pref-desc">${t('settings.uiLanguageDesc')}</div>
     <div class="lang-pref-actions">
       <button class="btn ${currentUILang==='en'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setUILanguage('en')">${t('settings.english')}</button>
       <button class="btn ${currentUILang==='he'?'btn-primary':'btn-ghost'} lang-pref-btn" onclick="setUILanguage('he')">${t('settings.hebrew')}</button>
-    </div>`;
+    </div>
+    ${alignmentControls}`;
 }
 
 function applyStaticTranslations(){
   document.documentElement.lang=currentUILang;
-  document.documentElement.dir=currentUILang==='he'?'rtl':'ltr';
+  document.documentElement.dir=getEffectiveUIDirection();
   document.title=t('app.title');
   setTextContent('.login-title',t('app.title'));
   setTextContent('#nameField .login-label',t('login.displayName'));
@@ -1409,6 +1436,14 @@ function setUILanguage(lang,persist=true){
   renderIntegrations();
   if(wfaDetailsId!==null)renderWfaDetails();
   setAuthChrome(currentUser,null);
+}
+
+function setHebrewAlignment(alignment,persist=true){
+  currentUIAlignment=alignment==='left'?'left':'right';
+  if(persist){
+    try{window.localStorage.setItem(UI_ALIGN_STORAGE_KEY,currentUIAlignment);}catch(error){}
+  }
+  applyStaticTranslations();
 }
 
 /* ═══ LOGIN ══════════════════════════════════ */
