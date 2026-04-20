@@ -44,6 +44,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .login-input:focus{border-color:var(--acc);}
 .login-btn{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .18s;}
 .login-btn:hover{filter:brightness(1.08);}
+.login-actions{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.login-actions .btn{width:100%;justify-content:center;}
+.login-status{display:none;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);font-size:12px;line-height:1.45;color:var(--text2);text-align:left;}
+.login-status.show{display:block;}
+.login-status.error{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.22);color:#b91c1c;}
 .login-note{font-size:11px;color:var(--muted2);margin-top:18px;}
 
 /* ═══ APP LAYOUT ════════════════════════════════════════ */
@@ -69,6 +74,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .cn-wrap:hover .edit-hint{display:flex;}
 .tb-right{display:flex;align-items:center;gap:9px;}
 .chip{display:flex;align-items:center;gap:5px;padding:4px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.chip-auth{max-width:148px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 
@@ -85,6 +91,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .btn-sm{padding:5px 12px;font-size:12px;border-radius:8px;}
 .btn-icon{padding:6px;border-radius:8px;}
 .btn-xs{padding:3px 9px;font-size:11px;border-radius:6px;}
+.btn:disabled,.login-btn:disabled{opacity:.65;cursor:not-allowed;transform:none !important;filter:none !important;box-shadow:none !important;}
 
 /* ═══ CONTENT ═══════════════════════════════════════════ */
 .content{flex:1;overflow-y:auto;padding:22px;}
@@ -298,6 +305,18 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .psc-head{display:flex;align-items:center;gap:10px;padding:13px 17px;border-bottom:1px solid var(--border);background:var(--surface2);}
 .psc-title{font-size:14px;font-weight:700;}.psc-sub{font-size:11px;color:var(--muted);}
 .psc-body{padding:15px 17px;}
+.integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.integration-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:12px;}
+.integration-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.integration-name{font-size:15px;font-weight:700;color:var(--text);}
+.integration-status{padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;border:1px solid transparent;}
+.integration-status.live{background:rgba(16,185,129,.1);color:var(--green);border-color:rgba(16,185,129,.2);}
+.integration-status.idle{background:rgba(148,163,184,.12);color:var(--muted);border-color:rgba(148,163,184,.2);}
+.integration-status.warn{background:rgba(245,158,11,.12);color:var(--yellow);border-color:rgba(245,158,11,.22);}
+.integration-note{font-size:12px;line-height:1.55;color:var(--text2);min-height:56px;}
+.integration-meta{font-size:11px;line-height:1.5;color:var(--muted);min-height:34px;}
+.integration-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.integration-empty{background:var(--surface);border:1px dashed var(--border2);border-radius:var(--r);padding:18px;color:var(--muted);font-size:13px;line-height:1.6;}
 .prompt-area{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:9px 11px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;resize:none;min-height:70px;outline:none;transition:border-color .18s;margin-bottom:10px;}
 .prompt-area:focus{border-color:var(--acc);background:var(--surface);}
 .stags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
@@ -361,11 +380,16 @@ input.txt-input:focus{border-color:var(--acc);}
   <div class="login-card">
     <div class="login-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.49 9.18 19.79 19.79 0 01.42 2.17 2 2 0 012.41 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
     <div class="login-title">Social Command Center</div>
-    <div class="login-sub">Sign in to manage your social presence</div>
-    <div class="login-field"><label class="login-label">Email</label><input class="login-input" type="email" placeholder="you@company.com" value="admin@mycompany.com"></div>
-    <div class="login-field"><label class="login-label">Password</label><input class="login-input" type="password" placeholder="••••••••" value="••••••••"></div>
-    <button class="login-btn" onclick="doLogin()">Sign In →</button>
-    <div class="login-note">Open gate mode — any credentials will work</div>
+    <div class="login-sub" id="loginSub">Sign in to manage your social presence</div>
+    <div class="login-field" id="nameField"><label class="login-label">Display Name (Optional)</label><input class="login-input" id="authName" type="text" placeholder="Jane Doe"></div>
+    <div class="login-field"><label class="login-label">Email</label><input class="login-input" id="authEmail" type="email" placeholder="you@company.com"></div>
+    <div class="login-field"><label class="login-label">Password</label><input class="login-input" id="authPassword" type="password" placeholder="••••••••"></div>
+    <div class="login-status" id="loginStatus"></div>
+    <div class="login-actions">
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
+      <button class="btn btn-ghost" id="createBtn" onclick="createAccount()">Create Account</button>
+    </div>
+    <div class="login-note" id="loginNote">Add Firebase to turn this into a real user database. Until then, this screen can stay in demo mode.</div>
   </div>
 </div>
 
@@ -404,6 +428,10 @@ input.txt-input:focus{border-color:var(--acc);}
     <div class="tb-right">
       <div class="chip"><span class="live-dot"></span>6 live</div>
       <div class="chip" id="todayDate"></div>
+      <div class="chip chip-auth" id="authStatusChip" title="Demo mode">Demo mode</div>
+      <button class="btn btn-ghost btn-icon btn-sm" id="logoutBtn" onclick="logout()" title="Sign out" style="display:none">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
       <button class="btn btn-primary btn-sm" onclick="showPage('compose',document.getElementById('nav-compose'))">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Post
       </button>
@@ -580,6 +608,7 @@ input.txt-input:focus{border-color:var(--acc);}
           <div class="sn-lbl">Settings</div>
           <div class="sn-item active" onclick="setSnav(this,'sn-styles')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Platform Styles</div>
           <div class="sn-item" onclick="setSnav(this,'sn-schema')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 20a8 8 0 100-16v16z"/></svg>Color Schema</div>
+          <div class="sn-item" onclick="setSnav(this,'sn-integrations');loadIntegrations()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8"/><path d="M12 8v8"/><path d="M3 12a9 9 0 0118 0"/><path d="M21 12a9 9 0 01-18 0"/></svg>Integrations</div>
           <div class="sn-item" onclick="setSnav(this,'sn-team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Team</div>
           <div class="sn-item" onclick="setSnav(this,'sn-score')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Scoring</div>
         </div>
@@ -608,6 +637,11 @@ input.txt-input:focus{border-color:var(--acc);}
                 <div class="schema-opt" onclick="applySchema('slate',this)"><div class="schema-sw" style="background:linear-gradient(135deg,#334155,#64748b)"></div><div class="schema-name">Slate</div><div class="schema-desc">Minimal</div></div>
               </div>
             </div>
+          </div>
+          <!-- Integrations -->
+          <div id="sn-integrations" style="display:none">
+            <div class="sec-title">Real Integrations</div>
+            <div class="integration-grid" id="integrationGrid"></div>
           </div>
           <!-- Team -->
           <div id="sn-team" style="display:none">
@@ -680,6 +714,8 @@ input.txt-input:focus{border-color:var(--acc);}
   </div>
 </div>
 
+<script src="firebase-config.js"></script>
+<script src="app-config.js"></script>
 <script>
 /* ═══════════════════════════════════════════
    DATA
@@ -714,6 +750,9 @@ let teamMembers=[
 ];
 
 let uploads=[], editId=null, delId=null, pingData=null;
+let currentUser=null, firebaseEnabled=false, demoModeEnabled=false, authClient=null, dbClient=null, authApi=null;
+let integrationProviders=[],pendingIntegrationNotice=null;
+const DEFAULT_COMPANY_NAME='My Company';
 
 // Indicators config — which columns are ON
 const ALL_INDICATORS=[
@@ -736,15 +775,482 @@ let perfSortState={col:null,dir:'asc'};
 let galleryStatusFilter='all', galleryPlatformFilter='all';
 
 /* ═══ LOGIN ══════════════════════════════════ */
-function doLogin(){
-  document.getElementById('loginScreen').style.opacity='0';
-  document.getElementById('loginScreen').style.transition='opacity .4s';
-  setTimeout(()=>{document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='flex';},400);
+function isFirebaseConfigReady(config){
+  return !!config && ['apiKey','authDomain','projectId','appId'].every(key=>typeof config[key]==='string' && config[key].trim());
+}
+
+function getFirebaseConfig(){
+  return window.POSTIT_FIREBASE_CONFIG || null;
+}
+
+function showAppShell(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('loginScreen').style.opacity='1';
+  document.getElementById('appShell').style.display='flex';
+}
+
+function showLoginScreen(){
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('loginScreen').style.opacity='1';
+  document.getElementById('authPassword').value='';
+}
+
+function setLoginStatus(message,type='info'){
+  const box=document.getElementById('loginStatus');
+  if(!box)return;
+  box.textContent=message||'';
+  box.className='login-status'+(message?' show':'')+(type==='error'?' error':'');
+}
+
+function setAuthButtonsBusy(isBusy){
+  ['loginBtn','createBtn'].forEach(id=>{
+    const btn=document.getElementById(id);
+    if(btn)btn.disabled=isBusy;
+  });
+}
+
+function getAuthFormValues(){
+  return {
+    displayName:document.getElementById('authName').value.trim(),
+    email:document.getElementById('authEmail').value.trim(),
+    password:document.getElementById('authPassword').value
+  };
+}
+
+function deriveDisplayName(email){
+  const local=(email||'').split('@')[0]||'New User';
+  return local.replace(/[._-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+}
+
+function normalizeAuthError(error){
+  const map={
+    'auth/email-already-in-use':'That email is already in use.',
+    'auth/invalid-email':'Please enter a valid email address.',
+    'auth/invalid-credential':'Email or password is incorrect.',
+    'auth/missing-password':'Please enter your password.',
+    'auth/operation-not-allowed':'Enable Email/Password sign-in in Firebase Authentication.',
+    'auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
+    'auth/user-disabled':'This user account has been disabled.',
+    'auth/user-not-found':'No user exists with that email address.',
+    'auth/weak-password':'Use a stronger password with at least 6 characters.',
+    'permission-denied':'Firestore denied the request. Check your security rules.',
+    'unavailable':'Firebase is temporarily unavailable. Try again in a minute.'
+  };
+  return map[error?.code] || error?.message || 'Something went wrong while talking to Firebase.';
+}
+
+function setAuthChrome(user,profile){
+  const chip=document.getElementById('authStatusChip');
+  const logoutBtn=document.getElementById('logoutBtn');
+  if(!firebaseEnabled){
+    chip.textContent='Demo mode';
+    chip.title='Firebase config not loaded';
+    logoutBtn.style.display='none';
+    return;
+  }
+  if(!user){
+    chip.textContent='Secured auth';
+    chip.title='Firebase Authentication enabled';
+    logoutBtn.style.display='none';
+    return;
+  }
+  const label=(profile?.displayName || user.displayName || user.email || 'Signed in').trim();
+  chip.textContent=label;
+  chip.title=user.email || label;
+  logoutBtn.style.display='';
+}
+
+function setLoginUi(opts){
+  const loginSub=document.getElementById('loginSub');
+  const loginNote=document.getElementById('loginNote');
+  const loginBtn=document.getElementById('loginBtn');
+  const createBtn=document.getElementById('createBtn');
+  const nameField=document.getElementById('nameField');
+  if(loginSub)loginSub.textContent=opts.sub;
+  if(loginNote)loginNote.textContent=opts.note;
+  if(loginBtn)loginBtn.textContent=opts.loginText;
+  if(createBtn)createBtn.style.display=opts.showCreate?'':'none';
+  if(nameField)nameField.style.display=opts.showName?'':'none';
+}
+
+function configureDemoMode(message){
+  firebaseEnabled=false;
+  demoModeEnabled=true;
+  setLoginUi({
+    sub:'Firebase is not configured yet, so this build stays in demo mode.',
+    note:'Create firebase-config.js with your Firebase web config to enable real accounts and the Firestore users collection.',
+    loginText:'Continue in Demo Mode',
+    showCreate:false,
+    showName:false
+  });
+  setAuthChrome(null,null);
+  setLoginStatus(message || 'Demo mode is active. Add your Firebase config when you are ready for real users.');
+}
+
+function configureFirebaseUi(){
+  firebaseEnabled=true;
+  demoModeEnabled=false;
+  setLoginUi({
+    sub:'Sign in with a real email/password account.',
+    note:'Accounts are created in Firebase Authentication and mirrored into Firestore under users/{uid}.',
+    loginText:'Sign In →',
+    showCreate:true,
+    showName:true
+  });
+  setAuthChrome(null,null);
+  setLoginStatus('Firebase connected. Sign in or create an account.');
+}
+
+async function upsertUserProfile(user,extra={}){
+  if(!(firebaseEnabled && authApi && dbClient && user))return null;
+  const companyName=(extra.companyName || document.getElementById('cnDisplay').textContent || DEFAULT_COMPANY_NAME).trim() || DEFAULT_COMPANY_NAME;
+  await authApi.setDoc(authApi.doc(dbClient,'users',user.uid),{
+    email:user.email || '',
+    displayName:extra.displayName || user.displayName || deriveDisplayName(user.email),
+    companyName,
+    updatedAt:authApi.serverTimestamp(),
+    ...extra
+  },{merge:true});
+}
+
+async function loadUserProfile(user){
+  if(!(firebaseEnabled && authApi && dbClient && user))return null;
+  const ref=authApi.doc(dbClient,'users',user.uid);
+  const snap=await authApi.getDoc(ref);
+  if(snap.exists())return snap.data();
+  const profile={
+    email:user.email || '',
+    displayName:user.displayName || deriveDisplayName(user.email),
+    companyName:DEFAULT_COMPANY_NAME,
+    createdAt:authApi.serverTimestamp(),
+    lastLoginAt:authApi.serverTimestamp()
+  };
+  await authApi.setDoc(ref,profile,{merge:true});
+  return {...profile,companyName:DEFAULT_COMPANY_NAME};
+}
+
+async function hydrateUserProfile(user){
+  try{
+    const profile=await loadUserProfile(user);
+    if(profile?.companyName)setCompanyName(profile.companyName,false);
+    setAuthChrome(user,profile);
+  }catch(error){
+    console.error('Failed to load Firestore user profile',error);
+    setAuthChrome(user,null);
+    toast('Signed in, but the Firestore profile could not be loaded.');
+  }
+}
+
+async function doLogin(){
+  if(!firebaseEnabled){
+    if(!demoModeEnabled){
+      setLoginStatus('Firebase could not be initialized. Fix firebase-config.js first.','error');
+      return;
+    }
+    showAppShell();
+    return;
+  }
+  const {email,password}=getAuthFormValues();
+  if(!email || !password){
+    setLoginStatus('Enter your email and password to sign in.','error');
+    return;
+  }
+  setAuthButtonsBusy(true);
+  setLoginStatus('Signing you in...');
+  try{
+    const credential=await authApi.signInWithEmailAndPassword(authClient,email,password);
+    await upsertUserProfile(credential.user,{lastLoginAt:authApi.serverTimestamp()});
+  }catch(error){
+    setLoginStatus(normalizeAuthError(error),'error');
+  }finally{
+    setAuthButtonsBusy(false);
+  }
+}
+
+async function createAccount(){
+  if(!firebaseEnabled){
+    setLoginStatus('Add your Firebase config before creating real accounts.','error');
+    return;
+  }
+  const {displayName,email,password}=getAuthFormValues();
+  if(!email || !password){
+    setLoginStatus('Enter an email and password to create an account.','error');
+    return;
+  }
+  setAuthButtonsBusy(true);
+  setLoginStatus('Creating your account...');
+  try{
+    const credential=await authApi.createUserWithEmailAndPassword(authClient,email,password);
+    const nextName=displayName || deriveDisplayName(email);
+    if(nextName && nextName!==credential.user.displayName){
+      await authApi.updateProfile(credential.user,{displayName:nextName});
+    }
+    await upsertUserProfile(credential.user,{
+      displayName:nextName,
+      companyName:document.getElementById('cnDisplay').textContent.trim() || DEFAULT_COMPANY_NAME,
+      createdAt:authApi.serverTimestamp(),
+      lastLoginAt:authApi.serverTimestamp()
+    });
+    setLoginStatus('Account created. Signing you in...');
+  }catch(error){
+    setLoginStatus(normalizeAuthError(error),'error');
+  }finally{
+    setAuthButtonsBusy(false);
+  }
+}
+
+async function logout(){
+  if(!(firebaseEnabled && authApi && authClient))return;
+  try{
+    await authApi.signOut(authClient);
+  }catch(error){
+    setLoginStatus(normalizeAuthError(error),'error');
+  }
+}
+
+function getApiBaseUrl(){
+  return String(window.POSTIT_APP_CONFIG?.apiBaseUrl || '').trim().replace(/\/$/,'');
+}
+
+function captureIntegrationReturnFromUrl(){
+  const url=new URL(window.location.href);
+  const provider=url.searchParams.get('integration');
+  const status=url.searchParams.get('status');
+  const message=url.searchParams.get('message');
+  if(provider && status){
+    pendingIntegrationNotice={provider,status,message};
+    ['integration','status','message'].forEach(key=>url.searchParams.delete(key));
+    history.replaceState({},'',url.toString());
+  }
+}
+
+function findIntegration(providerKey){
+  return integrationProviders.find(provider=>provider.key===providerKey) || null;
+}
+
+function renderIntegrations(customMessage=''){
+  const grid=document.getElementById('integrationGrid');
+  if(!grid)return;
+
+  if(customMessage){
+    grid.innerHTML=`<div class="integration-empty">${customMessage}</div>`;
+    return;
+  }
+
+  if(!integrationProviders.length){
+    grid.innerHTML='<div class="integration-empty">No integration data loaded yet.</div>';
+    return;
+  }
+
+  grid.innerHTML=integrationProviders.map(provider=>{
+    const statusClass=!provider.configured?'warn':provider.connected?'live':'idle';
+    const statusLabel=!provider.configured?'Setup needed':provider.connected?'Connected':'Not connected';
+    const note=(provider.notes && provider.notes[0]) || 'Configure the backend credentials and connect this provider.';
+    const meta=!provider.configured
+      ? `Missing env: ${(provider.missingConfig || []).join(', ')}`
+      : provider.connected
+        ? (provider.integration?.accountHandle || provider.integration?.displayName || 'Account connected')
+        : 'Ready to connect from this workspace';
+    return `<div class="integration-card">
+      <div class="integration-head">
+        <div class="integration-name">${provider.displayName}</div>
+        <div class="integration-status ${statusClass}">${statusLabel}</div>
+      </div>
+      <div class="integration-note">${note}</div>
+      <div class="integration-meta">${meta}</div>
+      <div class="integration-actions">
+        <button class="btn btn-primary btn-sm" ${!provider.configured?'disabled':''} onclick="beginConnect('${provider.key}')">${provider.connected?'Reconnect':'Connect'}</button>
+        ${provider.connected?`<button class="btn btn-ghost btn-sm" onclick="disconnectIntegration('${provider.key}')">Disconnect</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function apiRequest(path,options={}){
+  const baseUrl=getApiBaseUrl();
+  if(!baseUrl)throw new Error('app-config.js is missing apiBaseUrl');
+  if(!firebaseEnabled || !currentUser)throw new Error('Sign in with a real account first');
+
+  const token=await currentUser.getIdToken();
+  const headers={...(options.headers||{}),Authorization:`Bearer ${token}`};
+  const init={method:options.method||'GET',headers};
+
+  if(options.body!==undefined){
+    init.body=typeof options.body==='string'?options.body:JSON.stringify(options.body);
+    if(!headers['Content-Type'])headers['Content-Type']='application/json';
+  }
+
+  const response=await fetch(baseUrl+path,init);
+  const contentType=response.headers.get('content-type')||'';
+  const payload=contentType.includes('application/json')?await response.json():await response.text();
+  if(!response.ok){
+    const message=typeof payload==='string'?payload:(payload?.error || 'Request failed');
+    throw new Error(message);
+  }
+  return payload;
+}
+
+async function loadIntegrations(showSuccessToast=false){
+  if(!firebaseEnabled || !currentUser){
+    integrationProviders=[];
+    renderIntegrations('Sign in with Firebase first to connect live platform accounts.');
+    return;
+  }
+
+  if(!getApiBaseUrl()){
+    integrationProviders=[];
+    renderIntegrations('Set the backend URL in app-config.js before connecting real platforms.');
+    return;
+  }
+
+  try{
+    const data=await apiRequest('/api/providers');
+    integrationProviders=data.providers || [];
+    renderIntegrations();
+    if(pendingIntegrationNotice){
+      const msg=pendingIntegrationNotice.status==='connected'
+        ? `${pendingIntegrationNotice.provider} connected successfully`
+        : `${pendingIntegrationNotice.provider} connection failed${pendingIntegrationNotice.message?`: ${pendingIntegrationNotice.message}`:''}`;
+      toast(msg);
+      pendingIntegrationNotice=null;
+    }else if(showSuccessToast){
+      toast('Integration state refreshed');
+    }
+  }catch(error){
+    integrationProviders=[];
+    renderIntegrations(`Could not reach the backend: ${error.message}`);
+  }
+}
+
+async function beginConnect(providerKey){
+  try{
+    const data=await apiRequest(`/api/integrations/${providerKey}/connect`,{method:'POST'});
+    window.location.href=data.url;
+  }catch(error){
+    toast(error.message);
+  }
+}
+
+async function disconnectIntegration(providerKey){
+  try{
+    await apiRequest(`/api/integrations/${providerKey}`,{method:'DELETE'});
+    await loadIntegrations();
+    toast(`${providerKey} disconnected`);
+  }catch(error){
+    toast(error.message);
+  }
+}
+
+function addPublishedEntry(platformName,txt,options={}){
+  const pl=PLATS.find(p=>p.name===platformName)||{color:'var(--muted)'};
+  published.unshift({
+    id:Date.now()+Math.random(),
+    txt,
+    platform:platformName,
+    plColor:pl.color,
+    reach:'0',
+    likes:'0',
+    comments:'0',
+    shares:'0',
+    daysInAir:'0',
+    traffic:'0',
+    conversions:'0',
+    audienceGrowth:'+0',
+    roi:'—',
+    score:0,
+    hasImg:uploads.length>0,
+    imgSrc:uploads[0]?.src,
+    externalId:options.externalId || '',
+    externalUrl:options.externalUrl || '',
+    approvers:[{ini:'SR',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:true},{ini:'MK',color:'rgba(245,158,11,.15)',textColor:'var(--yellow)',ok:true}]
+  });
+}
+
+function resolvePlatformPublishConfig(platformName){
+  if(platformName==='Twitter'){
+    const integration=findIntegration('x');
+    return integration?.connected?{provider:'x'}:{error:'Connect X before publishing to Twitter/X'};
+  }
+  if(platformName==='LinkedIn'){
+    const integration=findIntegration('linkedin');
+    return integration?.connected?{provider:'linkedin'}:{error:'Connect LinkedIn before publishing'};
+  }
+  if(platformName==='Facebook'){
+    const integration=findIntegration('meta');
+    const pageId=integration?.integration?.pages?.[0]?.id;
+    return integration?.connected && pageId?{provider:'meta',targetId:pageId}:{error:'Connect Meta and choose a Facebook Page first'};
+  }
+  if(platformName==='Instagram'){
+    const integration=findIntegration('meta');
+    const igId=integration?.integration?.instagramAccounts?.[0]?.instagramAccountId;
+    if(!integration?.connected || !igId)return{error:'Connect Meta with an Instagram Business/Creator account first'};
+    return{error:'Instagram live publishing needs a public media URL. The current frontend still stores images locally only.'};
+  }
+  if(platformName==='TikTok'){
+    return{error:'TikTok connect flow exists, but its upload pipeline is not finished yet.'};
+  }
+  if(platformName==='YouTube'){
+    return{error:'YouTube connect flow exists, but its video upload pipeline is not finished yet.'};
+  }
+  return{error:`No live integration mapped for ${platformName}`};
+}
+
+async function initAuth(){
+  if(!isFirebaseConfigReady(getFirebaseConfig())){
+    configureDemoMode();
+    return;
+  }
+  setLoginStatus('Connecting to Firebase...');
+  try{
+    const [{initializeApp},{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile},{getFirestore,doc,setDoc,getDoc,serverTimestamp}]=await Promise.all([
+      import('https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js'),
+      import('https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js')
+    ]);
+    const app=initializeApp(getFirebaseConfig());
+    authClient=getAuth(app);
+    dbClient=getFirestore(app);
+    authApi={signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile,doc,setDoc,getDoc,serverTimestamp};
+    configureFirebaseUi();
+    onAuthStateChanged(authClient,async user=>{
+      currentUser=user;
+      if(user){
+        showAppShell();
+        await hydrateUserProfile(user);
+        await loadIntegrations();
+        setLoginStatus('');
+      }else{
+        integrationProviders=[];
+        renderIntegrations('Sign in with Firebase first to connect live platform accounts.');
+        setAuthChrome(null,null);
+        showLoginScreen();
+        setLoginStatus('Sign in or create an account to continue.');
+      }
+    });
+  }catch(error){
+    console.error('Firebase initialization failed',error);
+    firebaseEnabled=false;
+    demoModeEnabled=false;
+    setAuthChrome(null,null);
+    setLoginUi({
+      sub:'Firebase could not be initialized.',
+      note:'Check firebase-config.js and make sure Email/Password auth plus Firestore are enabled in your Firebase project.',
+      loginText:'Retry After Fixing Config',
+      showCreate:false,
+      showName:false
+    });
+    setLoginStatus(normalizeAuthError(error),'error');
+  }
 }
 
 /* ═══ INIT ════════════════════════════════════ */
 document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+document.getElementById('authPassword').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+captureIntegrationReturnFromUrl();
 buildGallery(); buildMonGallery(); buildTeamTable(); renderWFA(); renderPublished(); renderPerfTable(); renderIndicatorDropdown(); renderPerfIndicatorDropdown();
+renderIntegrations('Sign in with Firebase first to connect live platform accounts.');
+initAuth();
 
 /* ═══ NAV ═════════════════════════════════════ */
 function showPage(id,btn){
@@ -752,11 +1258,30 @@ function showPage(id,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(btn) btn.classList.add('active');
+  if(id==='settings')loadIntegrations();
 }
 
 /* ═══ COMPANY NAME ════════════════════════════ */
 function startCNEdit(){const d=document.getElementById('cnDisplay'),i=document.getElementById('cnInput');d.style.display='none';i.style.display='inline-block';i.focus();i.select();}
-function saveCN(){const d=document.getElementById('cnDisplay'),i=document.getElementById('cnInput');const v=i.value.trim()||'My Company';d.textContent=v;i.value=v;d.style.display='';i.style.display='none';document.getElementById('ph-cn').textContent=v;document.getElementById('ph-init').textContent=v[0].toUpperCase();PLATS.forEach(p=>{p.handle=p.id==='li'?v:(p.id==='fb'?v+' Page':'@'+v.replace(/\s+/g,'').toLowerCase());});buildGallery();}
+function setCompanyName(value,persist=true){
+  const d=document.getElementById('cnDisplay'),i=document.getElementById('cnInput');
+  const v=(value || '').trim() || DEFAULT_COMPANY_NAME;
+  d.textContent=v;
+  i.value=v;
+  d.style.display='';
+  i.style.display='none';
+  document.getElementById('ph-cn').textContent=v;
+  document.getElementById('ph-init').textContent=v[0].toUpperCase();
+  PLATS.forEach(p=>{p.handle=p.id==='li'?v:(p.id==='fb'?v+' Page':'@'+v.replace(/\s+/g,'').toLowerCase());});
+  buildGallery();
+  if(persist && firebaseEnabled && currentUser){
+    upsertUserProfile(currentUser,{companyName:v}).catch(error=>{
+      console.error('Failed to save company name',error);
+      toast('Company name changed locally, but Firestore sync failed.');
+    });
+  }
+}
+function saveCN(){setCompanyName(document.getElementById('cnInput').value,true);}
 function cnKey(e){if(e.key==='Enter'||e.key==='Escape')saveCN();}
 
 /* ═══ GALLERY BUILD ═══════════════════════════ */
@@ -836,20 +1361,67 @@ function updatePhImg(){const p=document.getElementById('ph-img');if(uploads.leng
 function toggleSched(){const t=document.getElementById('schedTog'),i=document.getElementById('schedInput');t.classList.toggle('on');i.style.display=t.classList.contains('on')?'block':'none';}
 
 /* ═══ PUBLISH ════════════════════════════════ */
-function publishPost(){
+async function publishPost(){
   const txt=document.getElementById('master-msg').value.trim();
   if(!txt){toast('Please write a message first');return;}
   const sel=document.querySelectorAll('.psel.selected');
   if(!sel.length){toast('Select at least one platform');return;}
-  [...sel].forEach((s,i)=>{
-    const pn=s.querySelector('.psel-name').textContent;
-    const pl=PLATS.find(p=>p.name===pn)||{color:'var(--muted)'};
-    published.unshift({id:Date.now()+i,txt,platform:pn,plColor:pl.color,reach:'0',likes:'0',comments:'0',shares:'0',daysInAir:'0',traffic:'0',conversions:'0',audienceGrowth:'+0',roi:'—',score:0,hasImg:uploads.length>0,imgSrc:uploads[0]?.src,approvers:[{ini:'SR',color:'rgba(14,165,233,.15)',textColor:'var(--acc)',ok:true},{ini:'MK',color:'rgba(245,158,11,.15)',textColor:'var(--yellow)',ok:true}]});
-  });
-  document.getElementById('master-msg').value='';
-  uploads=[];renderUploads();updatePhImg();updatePreview();
+  const platforms=[...sel].map(s=>s.querySelector('.psel-name').textContent);
+
+  if(!(firebaseEnabled && currentUser && getApiBaseUrl())){
+    platforms.forEach(pn=>addPublishedEntry(pn,txt));
+    document.getElementById('master-msg').value='';
+    uploads=[];renderUploads();updatePhImg();updatePreview();
+    document.getElementById('pubCount').textContent=published.length;
+    renderPublished();
+    toast('Published locally in demo mode. Connect the backend for live posting.');
+    return;
+  }
+
+  const liveResults=[],blocked=[];
+  for(const pn of platforms){
+    const publishConfig=resolvePlatformPublishConfig(pn);
+    if(publishConfig.error){
+      blocked.push(`${pn}: ${publishConfig.error}`);
+      continue;
+    }
+
+    try{
+      const data=await apiRequest('/api/publish',{
+        method:'POST',
+        body:{
+          provider:publishConfig.provider,
+          text:txt,
+          targetId:publishConfig.targetId
+        }
+      });
+      addPublishedEntry(pn,txt,{
+        externalId:data.result?.postId || '',
+        externalUrl:data.result?.url || ''
+      });
+      liveResults.push(pn);
+    }catch(error){
+      blocked.push(`${pn}: ${error.message}`);
+    }
+  }
+
+  if(liveResults.length){
+    document.getElementById('master-msg').value='';
+    uploads=[];renderUploads();updatePhImg();updatePreview();
+  }
+
   document.getElementById('pubCount').textContent=published.length;
-  toast('🚀 Published to '+[...sel].map(s=>s.querySelector('.psel-name').textContent).join(', ')+'!');
+  renderPublished();
+
+  if(liveResults.length && !blocked.length){
+    toast('Live published to '+liveResults.join(', ')+'!');
+  }else if(liveResults.length){
+    toast('Live published to '+liveResults.join(', ')+' — some platforms still need setup');
+    console.warn('Skipped publish targets:',blocked);
+  }else{
+    toast(blocked[0] || 'No selected platforms are ready for live publishing');
+    console.warn('Publish blocked:',blocked);
+  }
 }
 
 /* ═══ INDICATORS ══════════════════════════════ */
@@ -1021,7 +1593,7 @@ function closePing(){document.getElementById('pingModal').classList.remove('open
 function sendPing(){closePing();toast('Ping sent to '+pingData?.name+' 📨');}
 
 /* ═══ SETTINGS ════════════════════════════════ */
-function setSnav(el,pid){document.querySelectorAll('.sn-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');['sn-styles','sn-schema','sn-team','sn-score'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=id===pid?'':'none';});}
+function setSnav(el,pid){document.querySelectorAll('.sn-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');['sn-styles','sn-schema','sn-integrations','sn-team','sn-score'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=id===pid?'':'none';});}
 function applySchema(name,el){document.getElementById('appShell').setAttribute('data-schema',name==='ocean'?'':name);document.querySelectorAll('.schema-opt').forEach(o=>o.classList.remove('active'));el.classList.add('active');toast('Theme: '+el.querySelector('.schema-name').textContent);}
 document.querySelectorAll('.stag').forEach(t=>t.addEventListener('click',()=>t.classList.toggle('on')));
 
